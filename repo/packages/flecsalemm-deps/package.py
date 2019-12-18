@@ -21,18 +21,8 @@ class FlecsalemmDeps(Package):
             description='Backend to use for distributed memory', multi=False)
     variant('debug_backend', default=False,
             description='Build Backend with Debug Mode')
-    variant('minimal', default=False,
-            description='Disable FindPackageMetis')
     variant('shared', default=True,
             description='Build shared libraries')
-    variant('flog', default=False,
-            description='Enable flog testing')
-    variant('doxygen', default=False,
-            description='Enable doxygen')
-    variant('doc', default=False,
-            description='Enable documentation')
-    variant('coverage', default=False,
-            description='Enable coverage build')
     variant('hdf5', default=False,
             description='Enable HDF5 Support')
     variant('caliper', default=False,
