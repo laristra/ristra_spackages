@@ -73,6 +73,3 @@ class FlecsalemmDeps(Package):
                     format_string='${PACKAGE} ${VERSION}'))
                 os.symlink(dep.prefix, os.path.join(spec.prefix, dep.name))
             out.close()
-
-    def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
-        spack_env.prepend_path('CMAKE_PREFIX_PATH',self.spec['draco'].prefix.cmake.draco)
