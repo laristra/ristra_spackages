@@ -18,13 +18,16 @@ spackarch=`spack arch`
 spackmod="${SPACK_ROOT}/share/spack/modules/${spackarch}"
 
 # Install spackage
-#spack install flecsalemm-deps%${spackcompiler}
+spack install flecsalemm-deps%${spackcompiler}
 
 # Generate module load commands
 spack module tcl loads  --dependencies flecsalemm-deps%gcc@8.2.0 | tee flecsalemm-deps-${namecompiler}
 
 # Prepend to module path
-sed -i "1s;^;prepend-path MODULE_PATH ${spackmod}\n;" flecsalemm-deps-${namecompiler}
+sed -i "1s;^;prepend-path MODULEPATH ${spackmod}\n;" flecsalemm-deps-${namecompiler}
+
+# And clean up the module path to not overwhelm users with spack
+echo "remove-path MODULEPATH ${spackmod}" >> flecsalemm-deps-${namecompiler}
 
 # Add compiler load
 sed -i "1s;^;module load ${modcompiler}\n;" flecsalemm-deps-${namecompiler}
