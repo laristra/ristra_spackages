@@ -4,7 +4,8 @@ display_usage() {
 	echo "This script must be passed three arguments:"
 	echo "- The Compiler Module"
 	echo "- The spack spec to install against"
-	echo "- And the name for the module file"
+	echo "- The name for the module file"
+	echo "- And, if not already provided via SPACK_ROOT, the path to the desired spack installation"
 	echo "e.g. ./ristraModuleGen.sh gcc/8.2.0 flecsalemm-deps+caliper%gcc@8.2.0 flecsalemm-deps-gcc-8.2.0-withCaliper" 
 } 
 
@@ -17,11 +18,27 @@ fi
 compiler="$1"
 spackSpec="$2"
 modName="$3"
+spackroot=""
+
+if [ -z "$SPACK_ROOT" ]
+then
+	if [ $# -lt 4 ]
+	then
+		display_usage
+		exit 1
+	fi
+	spackroot="$4"
+else
+	spackroot="$SPACK_ROOT"
+fi
+
+# (Re-)Initialize Spack
+source ${spackroot}/share/spack/setup-env.sh
 
 
 # Get variables from spack
 spackarch=`spack arch`
-spackmod="${SPACK_ROOT}/share/spack/modules/${spackarch}"
+spackmod="${spackroot}/share/spack/modules/${spackarch}"
 
 # Install spackage
 spack install ${spackSpec}
