@@ -47,10 +47,10 @@ spack install ${spackSpec}
 spack module tcl loads  --dependencies ${spackSpec} | tee ${modName}
 
 # Prepend to module path
-sed -i "1s;^;prepend-path MODULEPATH ${spackmod}\n;" ${modName}
+sed -i "1s;^;module use ${spackmod}\n;" ${modName}
 
 # And clean up the module path to not overwhelm users with spack
-echo "remove-path MODULEPATH ${spackmod}" >> ${modName}
+#echo "module unuse ${spackmod}" >> ${modName}
 
 # Add compiler load
 sed -i "1s;^;module load ${compiler}\n;" ${modName}
