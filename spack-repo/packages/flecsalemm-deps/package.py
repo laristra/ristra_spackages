@@ -55,8 +55,7 @@ class FlecsalemmDeps(Package):
     depends_on("random123")
     depends_on("hypre")
     depends_on("lua@5.3.5")
-    # Not actually a flecaslemm-dep but related to fixing dependency/trilinos
-    #   issues
+    # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
     depends_on("suite-sparse@:5.3.0")
 
     # Dummy install for now,  will be removed when metapackage is available
