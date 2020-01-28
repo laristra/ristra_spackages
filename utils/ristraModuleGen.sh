@@ -50,7 +50,7 @@ spack module tcl loads  --dependencies ${spackSpec} | tee ${modName}
 sed -i "1s;^;module use ${spackmod}\n;" ${modName}
 
 # And clean up the module path to not overwhelm users with spack
-#echo "module unuse ${spackmod}" >> ${modName}
+echo "if { [ module-info mode remove ] } { module unuse ${spackmod} }" >> ${modName}
 
 # Add compiler load
 sed -i "1s;^;module load ${compiler}\n;" ${modName}
