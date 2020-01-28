@@ -23,7 +23,12 @@ Second, you need this repo for the custom spackage files if you haven't clone ye
 ```
 $ git clone git@gitlab.lanl.gov:laristra/ristra_spackages.git
 ```
-Then add a `repos.yaml` in `/home/<user>/spack/etc/spack/linux` folder (you need to create the linux folder if this is the first file) with the following content
+Then add a `repos.yaml` in `/home/<user>/spack/etc/spack/linux` folder 
+```
+$ mkdir -p /home/<user>/spack/etc/spack/linux
+$ vim /home/<user>/spack/etc/spack/linux/repos.yaml
+```
+with the following content
 ```
 repos:
 - /home/<user>/ristra_spackages/spack-repo
@@ -38,7 +43,11 @@ Then copy the config files under the right platform into your spack instance's c
 $ cp /home/<user>/ristra-spack-configurations/<platform>/* /home/<user>/spack/etc/spack/linux/
 ```
 
-Fourth, you need the spack mirrors from the ngc space if you don't want to download the source every time for every packages by adding a `mirrors.yaml` in `/home/<user>/spack/etc/spack/linux` with the following content.
+Fourth, you need the spack mirrors from the ngc space if you don't want to download the source every time for every packages by adding a `mirrors.yaml` in `/home/<user>/spack/etc/spack/linux`
+```
+$ vim /home/<user>/spack/etc/spack/linux/mirrors.yaml
+```
+with the following content.
 ```
 mirrors:
   flecsalemm-deps: file:///usr/projects/ngc/public/ristra_spack_mirrors/flecsalemm-deps-mirror
@@ -46,6 +55,6 @@ mirrors:
 
 Now you can invoke the script like such
 ```
-$ ./ristraModuleGen.sh gcc/8.3.0 "flecsalemm-deps%gcc@8.3.0 backend=mpi ^mpich@3.2.1%gcc@8.3.0+slurm" "flecsalemm-deps_2020.01.27-backend_mpi-mpich_3.2.1-gcc_8.3.0" "/home/<user>/spack"
+$ /home/<user>/ristra_spackages/utils/ristraModuleGen.sh gcc/8.3.0 "flecsalemm-deps%gcc@8.3.0 backend=mpi ^mpich@3.2.1%gcc@8.3.0+slurm" "flecsalemm-deps_2020.01.27-backend_mpi-mpich_3.2.1-gcc_8.3.0" "/home/<user>/spack"
 ```
 

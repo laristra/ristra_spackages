@@ -28,4 +28,4 @@ To ensure you have this custom repo in your spack all the time, move the `repos.
 $ mv /home/<user>/.spack/linux/repos.yaml /home/<user>/spack/etc/spack/
 ```
 
-Please see the [Spack documentation](https://spack.readthedocs.io/en/latest/configuration.html) for detailed info.
+Please see the [Spack documentation](https://spack.readthedocs.io/en/latest/configuration.html) for more detailed info.
