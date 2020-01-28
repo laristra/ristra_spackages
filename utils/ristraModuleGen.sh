@@ -7,7 +7,6 @@ display_usage() {
 	echo "- The name for the module file"
 	echo "- And, if not already provided via SPACK_ROOT, the path to the desired spack installation"
 	echo "e.g. ./ristraModuleGen.sh gcc/8.2.0 flecsalemm-deps+caliper%gcc@8.2.0 flecsalemm-deps-gcc-8.2.0-withCaliper" 
-        echo "Note: if there are/will be more than one version of a certain package installed through spack, full specification of the package will be necessary to avoid multiple 'module load' of the same package under different variations."
 } 
 
 if [ $# -lt 3 ] 
