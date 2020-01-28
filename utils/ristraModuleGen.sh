@@ -45,7 +45,7 @@ spackmod="${spackroot}/share/spack/modules/${spackarch}"
 spack install ${spackSpec}
 
 # Generate module load commands
-spack module tcl loads  --dependencies ${spackSpec} | tee ${modName}
+spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
 
 # Prepend to module path
 sed -i "1s;^;module use ${spackmod}\n;" ${modName}
