@@ -33,19 +33,29 @@ else
 	spackroot="$SPACK_ROOT"
 fi
 
-# (Re-)Initialize Spack
-source ${spackroot}/share/spack/setup-env.sh
+echo '' | tee ${modName}
 
+# (Re-)Initialize Spack
+export cmd="source ${spackroot}/share/spack/setup-env.sh"
+( echo "$cmd" && $cmd ) | tee ${modName}.log
+#source ${spackroot}/share/spack/setup-env.sh
 
 # Get variables from spack
 spackarch=`spack arch`
 spackmod="${spackroot}/share/spack/modules/${spackarch}"
 
+echo "spackarch=$spackarch" | tee -a ${modName}.log
+echo "spackmod=$spackmod" | tee -a ${modName}.log
+
 # Install spackage
-spack install ${spackSpec}
+export cmd="spack install ${spackSpec}"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+#spack install ${spackSpec}
 
 # Generate module load commands
-spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
+export cmd="spack module tcl loads --dependencies ${spackSpec}"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log ${modName}
+#spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
 
 # Prepend to module path
 sed -i "1s;^;module use ${spackmod}\n;" ${modName}
