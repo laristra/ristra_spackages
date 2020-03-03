@@ -33,7 +33,7 @@ class FlecsalemmDeps(Package):
             description='Build FleCSI Tutorials')
 
     depends_on("pkgconfig", type='build')
-    depends_on("cmake@3.1:")
+    depends_on("cmake@3.12:")
     depends_on('mpi', when='backend=mpi')
     depends_on('mpi', when='backend=legion')
     depends_on('mpi', when='backend=hpx')
@@ -66,3 +66,7 @@ class FlecsalemmDeps(Package):
                     format_string='${PACKAGE} ${VERSION}'))
                 os.symlink(dep.prefix, os.path.join(spec.prefix, dep.name))
             out.close()
+
+    def setup_run_environment(self, env):
+        if '+hdf5' in self.spec:
+            env.set('HDF5_ROOT', self.spec['hdf5'].prefix)
