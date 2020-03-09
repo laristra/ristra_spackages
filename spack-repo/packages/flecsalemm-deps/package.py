@@ -10,8 +10,8 @@ import os
 class FlecsalemmDeps(Package):
     """TODO
     """
-    homepage ="https://xcp-stash.lanl.gov/projects/LARISTRA/repos/flecsale-mm"
-    git      = "ssh://git@xcp-stash.lanl.gov:7999/laristra/flecsale-mm.git"
+    homepage ="https://gitlab.lanl.gov/laristra/flecsale-mm.git"
+    git      = "ssh://git@gitlab.lanl.gov:laristra/flecsale-mm.git"
 
     version('master', branch='master', submodules=False)
 
