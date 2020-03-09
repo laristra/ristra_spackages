@@ -53,7 +53,8 @@ export cmd="spack install ${spackSpec}"
 
 # Generate module load commands
 export cmd="spack module tcl loads --dependencies ${spackSpec}"
-( echo "$cmd" && $cmd ) | tee -a ${modName}.log ${modName}
+( echo "$cmd" ) | tee -a ${modName}.log
+( $cmd ) | tee -a ${modName}.log ${modName}
 #spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
 
 # Prepend to module path
