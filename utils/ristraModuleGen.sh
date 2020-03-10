@@ -35,24 +35,24 @@ fi
 echo '' | tee ${modName}
 
 # (Re-)Initialize Spack
-export cmd="source ${spackroot}/share/spack/setup-env.sh"
-( echo "$cmd" && $cmd ) | tee ${modName}.log
+#export cmd="source ${spackroot}/share/spack/setup-env.sh"
+#( echo "$cmd" && $cmd ) | tee ${modName}.log
 #source ${spackroot}/share/spack/setup-env.sh
 
 # Get variables from spack
-spackarch=`spack arch`
+spackarch=`${spackroot}/bin/spack arch`
 spackmod="${spackroot}/share/spack/modules/${spackarch}"
 
 echo "spackarch=$spackarch" | tee -a ${modName}.log
 echo "spackmod=$spackmod" | tee -a ${modName}.log
 
 # Install spackage
-export cmd="spack install ${spackSpec}"
+export cmd="${spackroot}/bin/spack install ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 #spack install ${spackSpec}
 
 # Generate module load commands
-export cmd="spack module tcl loads --dependencies ${spackSpec}"
+export cmd="${spackroot}/bin/spack module tcl loads --dependencies ${spackSpec}"
 ( echo "$cmd" ) | tee -a ${modName}.log
 ( $cmd ) | tee -a ${modName}.log ${modName}
 #spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
