@@ -33,6 +33,7 @@ class FlecsiSp(CMakePackage):
     depends_on('metis@5.1.0:')
     depends_on('parmetis@4.0.3:')
     depends_on('hdf5+hl+mpi')
+    depends_on('lua@5.3.5')
     depends_on('exodusii')
     #depends_on('libristra +cinch')
     #depends_on('flecsi +cinch backend=mpi', when='backend=mpi')
@@ -41,5 +42,13 @@ class FlecsiSp(CMakePackage):
     def cmake_args(self):
         spec = self.spec
         options = []
+
+        if '+cinch' in spec:
+            options.append('-DCINCH_SOURCE_DIR=' + spec['cinch'].prefix)
+
+        if self.run_tests:
+            options.append('-DENABLE_UNIT_TESTS=ON')
+        else:
+            options.append('-DENABLE_UNIT_TESTS=OFF')
 
         return options
