@@ -31,6 +31,8 @@ class FlecsalemmDeps(Package):
             description='Enable GraphViz Support')
     variant('tutorial', default=False,
             description='Build FleCSI Tutorials')
+    variant('paraview', default=False,
+            description='Build Paraview Support')
 
     depends_on("pkgconfig", type='build')
     depends_on("cmake@3.12:")
@@ -58,6 +60,7 @@ class FlecsalemmDeps(Package):
     depends_on("netcdf-c@4.7.0:")
     # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
     depends_on("suite-sparse@:5.3.0")
+    depends_on('paraview@5.7.0:', when='+paraview')
 
     # Dummy install for now,  will be removed when metapackage is available
     def install(self, spec, prefix):
@@ -71,3 +74,4 @@ class FlecsalemmDeps(Package):
     def setup_run_environment(self, env):
         if '+hdf5' in self.spec:
             env.set('HDF5_ROOT', self.spec['hdf5'].prefix)
+        env.set('EXODUSII_ROOT', self.spec['exodusii'].prefix)
