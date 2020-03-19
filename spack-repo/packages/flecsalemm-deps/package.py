@@ -11,7 +11,7 @@ class FlecsalemmDeps(Package):
     """TODO
     """
     homepage ="https://gitlab.lanl.gov/laristra/flecsale-mm.git"
-    git      = "ssh://git@gitlab.lanl.gov:laristra/flecsale-mm.git"
+    git      = "git@gitlab.lanl.gov:laristra/flecsale-mm.git"
 
     version('master', branch='master', submodules=False)
 
