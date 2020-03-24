@@ -46,6 +46,10 @@ spackmod="${spackroot}/share/spack/modules/${spackarch}"
 echo "spackarch=$spackarch" | tee -a ${modName}.log
 echo "spackmod=$spackmod" | tee -a ${modName}.log
 
+# Clean spackage
+export cmd="${spackroot}/bin/spack clean --all"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+
 # Install spackage
 export cmd="${spackroot}/bin/spack install ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
@@ -56,6 +60,10 @@ export cmd="${spackroot}/bin/spack module tcl loads --dependencies ${spackSpec}"
 ( echo "$cmd" ) | tee -a ${modName}.log
 ( $cmd ) | tee -a ${modName}.log ${modName}
 #spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
+
+# Clean spackage
+export cmd="${spackroot}/bin/spack clean --all"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Prepend to module path
 sed -i "1s;^;module use ${spackmod}\n;" ${modName}
