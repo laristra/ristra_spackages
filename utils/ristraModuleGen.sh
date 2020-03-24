@@ -55,6 +55,10 @@ export cmd="${spackroot}/bin/spack install ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 #spack install ${spackSpec}
 
+# Refresh spackage modules
+export cmd="${spackroot} module tcl refresh"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+
 # Generate module load commands
 export cmd="${spackroot}/bin/spack module tcl loads --dependencies ${spackSpec}"
 ( echo "$cmd" ) | tee -a ${modName}.log
