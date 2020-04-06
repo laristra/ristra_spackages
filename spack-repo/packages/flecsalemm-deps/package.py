@@ -11,7 +11,7 @@ class FlecsalemmDeps(Package):
     """TODO
     """
     homepage ="https://gitlab.lanl.gov/laristra/flecsale-mm.git"
-    git      = "ssh://git@gitlab.lanl.gov:laristra/flecsale-mm.git"
+    git      = "git@gitlab.lanl.gov:laristra/flecsale-mm.git"
 
     version('master', branch='master', submodules=False)
 
@@ -31,6 +31,8 @@ class FlecsalemmDeps(Package):
             description='Enable GraphViz Support')
     variant('tutorial', default=False,
             description='Build FleCSI Tutorials')
+    variant('trilinos', default=False,
+            description='Enable Trilinos Support')
 
     depends_on("pkgconfig", type='build')
     depends_on("cmake@3.12:")
@@ -48,7 +50,7 @@ class FlecsalemmDeps(Package):
     depends_on('caliper', when='+caliper')
     depends_on('graphviz', when='+graphviz')
     depends_on('python@3.0:', when='+tutorial')
-    depends_on("trilinos@12.12.1:12.14.1 ~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext+exodus+explicit_template_instantiation~float+fortran~fortrilinos+gtest+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards+shared~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2")
+    depends_on("trilinos@12.12.1:12.14.1~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext+exodus+explicit_template_instantiation~float+fortran~fortrilinos+gtest+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards+shared~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2", when='+trilinos')
     depends_on("gotcha")
     depends_on("eospac")
     depends_on("exodusii")
