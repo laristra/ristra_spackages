@@ -8,10 +8,10 @@ from spack import *
 import os
 
 class FlecsalemmDeps(Package):
-    """TODO
-    """
-    homepage ="https://gitlab.lanl.gov/laristra/flecsale-mm.git"
-    git      = "git@gitlab.lanl.gov:laristra/flecsale-mm.git"
+    '''TODO
+    '''
+    homepage ='https://github.com/laristra/flecsale'
+    git = 'git@github.com:laristra/flecsale.git'
 
     version('master', branch='master', submodules=False)
 
@@ -34,8 +34,8 @@ class FlecsalemmDeps(Package):
     variant('trilinos', default=False,
             description='Enable Trilinos Support')
 
-    depends_on("pkgconfig", type='build')
-    depends_on("cmake@3.12:")
+    depends_on('pkgconfig', type='build')
+    depends_on('cmake@3.12:')
     depends_on('mpi', when='backend=mpi')
     depends_on('mpi', when='backend=legion')
     depends_on('mpi', when='backend=hpx')
@@ -44,28 +44,28 @@ class FlecsalemmDeps(Package):
     depends_on('charmpp backend=mpi', when='backend=charm++')
     depends_on('hpx@1.3.0 cxxstd=14', when='backend=hpx')
     depends_on('boost@1.70.0: cxxstd=14 +program_options')
-    depends_on("metis@5.1.0:")
-    depends_on("parmetis@4.0.3:")
+    depends_on('metis@5.1.0:')
+    depends_on('parmetis@4.0.3:')
     depends_on('hdf5', when='+hdf5')
     depends_on('caliper', when='+caliper')
     depends_on('graphviz', when='+graphviz')
     depends_on('python@3.0:', when='+tutorial')
-    depends_on("trilinos@12.12.1:12.14.1~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext+exodus+explicit_template_instantiation~float+fortran~fortrilinos+gtest+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards+shared~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2", when='+trilinos')
-    depends_on("gotcha")
-    depends_on("eospac")
-    depends_on("exodusii")
-    depends_on("random123")
-    depends_on("hypre")
-    depends_on("lua@5.3.5")
-    depends_on("netcdf-c@4.7.0:")
+    depends_on('trilinos@12.12.1:12.14.1~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext+exodus+explicit_template_instantiation~float+fortran~fortrilinos+gtest+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards+shared~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2', when='+trilinos')
+    depends_on('gotcha')
+    depends_on('eospac')
+    depends_on('exodusii')
+    depends_on('random123')
+    depends_on('hypre')
+    depends_on('lua@5.3.5')
+    depends_on('netcdf-c@4.7.0:')
     # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
-    depends_on("suite-sparse@:5.3.0")
+    depends_on('suite-sparse@:5.3.0', when='+trilinos')
 
     # Dummy install for now,  will be removed when metapackage is available
     def install(self, spec, prefix):
         with open(os.path.join(spec.prefix, 'package-list.txt'), 'w') as out:
             for dep in spec.dependencies(deptype='build'):
-                out.write("%s\n" % dep.format(
+                out.write('%s\n' % dep.format(
                     format_string='${PACKAGE} ${VERSION}'))
                 os.symlink(dep.prefix, os.path.join(spec.prefix, dep.name))
             out.close()
