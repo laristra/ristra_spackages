@@ -15,14 +15,14 @@ class Libristra(CMakePackage):
     version('master', branch='master', submodules=False, preferred=True)
     version('1.0.0', commit='33235fe0334ca7f1f99b386a90932d9f8e1e71de')
 
-    variant('build_type', default='Release', values=('Debug', 'Release'),
+    variant('build_type', default='Release', values=('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel'),
             description='The build type to build', multi=False)
     variant('paraview', default=False,
             description='Enable ParaView')
-    variant('cinch', default=False,
+    variant('cinch', default=True,
             description='Enable External Cinch')
 
-    depends_on('cmake@3.12:',  type='build')
+    depends_on('cmake@3.12:')
     # Requires cinch > 1.0 due to cinchlog installation issue
     depends_on('cinch@1.01:', type='build', when='+cinch')
     depends_on('mpi')
@@ -33,7 +33,7 @@ class Libristra(CMakePackage):
 
     def cmake_args(self):
         spec = self.spec
-        options = []
+        options = ['-DENABLE_LUA=ON']
         
         if '+cinch' in spec:
             options.append('-DCINCH_SOURCE_DIR=' + spec['cinch'].prefix)
