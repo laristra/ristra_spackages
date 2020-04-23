@@ -52,7 +52,7 @@ class FlecsalemmDeps(Package):
     depends_on('python@3.0:', when='+tutorial')
     depends_on('trilinos@12.12.1:12.14.1~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext+exodus+explicit_template_instantiation~float+fortran~fortrilinos+gtest+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards+shared~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2', when='+trilinos')
     depends_on('gotcha')
-    depends_on('eospac')
+    depends_on('eospac@6.4.0:')
     depends_on('exodusii')
     depends_on('random123')
     depends_on('hypre')
