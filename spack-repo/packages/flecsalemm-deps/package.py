@@ -11,7 +11,7 @@ class FlecsalemmDeps(Package):
     '''TODO
     '''
     homepage ='https://github.com/laristra/flecsale'
-    git = 'git@github.com:laristra/flecsale.git'
+    git = 'https://github.com/laristra/flecsale.git'
 
     version('master', branch='master', submodules=False)
 
