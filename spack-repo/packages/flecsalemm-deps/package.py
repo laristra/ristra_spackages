@@ -7,7 +7,7 @@
 from spack import *
 import os
 
-class FlecsalemmDeps(Package):
+class FlecsalemmDeps(BundlePackage):
     '''TODO
     '''
     homepage ='https://github.com/laristra/flecsale'
@@ -60,15 +60,6 @@ class FlecsalemmDeps(Package):
     depends_on('netcdf-c@4.7.0:')
     # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
     depends_on('suite-sparse@:5.3.0', when='+trilinos')
-
-    # Dummy install for now,  will be removed when metapackage is available
-    def install(self, spec, prefix):
-        with open(os.path.join(spec.prefix, 'package-list.txt'), 'w') as out:
-            for dep in spec.dependencies(deptype='build'):
-                out.write('%s\n' % dep.format(
-                    format_string='${PACKAGE} ${VERSION}'))
-                os.symlink(dep.prefix, os.path.join(spec.prefix, dep.name))
-            out.close()
 
     def setup_run_environment(self, env):
         if '+hdf5' in self.spec:

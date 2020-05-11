@@ -9,7 +9,8 @@ from spack.pkg.builtin.legion import Legion
 
 
 class Legion(Legion):
-    version('ctrl-rep-5', commit='a204dced578258246ea0933293f4017058bc4bf5', preferred=True)
+    version('ctrl-rep-6', commit='095be5c6e8d36a6ddb235fd079bc6e9b8d37baeb', preferred=True)
+    version('ctrl-rep-5', commit='a204dced578258246ea0933293f4017058bc4bf5')
     version('ctrl-rep-4', commit='b66083076016c63ea8398fdb89c237880fcb0173')
     version('ctrl-rep-3', commit='572576b312509e666f2d72fafdbe9d968b1a6ac3')
     version('ctrl-rep-2', commit='96682fd8aae071ecd30a3ed5f481a9d84457a4b6')
