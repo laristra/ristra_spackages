@@ -60,5 +60,6 @@ class FlecsiDeps(BundlePackage):
     depends_on('graphviz', when='+graphviz')
     depends_on('python@3.0:', when='+tutorial')
     depends_on('llvm', when='+flecstan')
+    depends_on('doxygen', when='+doxygen')
 
     conflicts('+tutorial', when='backend=hpx')
