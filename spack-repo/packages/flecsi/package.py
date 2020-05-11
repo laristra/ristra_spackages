@@ -57,7 +57,7 @@ class Flecsi(CMakePackage):
             description='Enable External Cinch')
 
     for b in ['mpi', 'legion', 'hpx']:
-        depends_on("flecsalemm-deps backend=%s" % b,
+        depends_on("flecsi-deps backend=%s" % b,
             when="backend=%s" % b)
     for v in ['debug_backend', 'doxygen', 'hdf5', 'caliper', 'graphviz', 'tutorial', 'flecstan', 'cinch']:
         depends_on("flecsi-deps +%s" % v, when="+%s" % v)
