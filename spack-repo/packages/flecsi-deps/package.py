@@ -13,9 +13,9 @@ class FlecsiDeps(BundlePackage):
     homepage = 'http://flecsi.org/'
     git      = 'https://github.com/laristra/flecsi.git'
 
-    version('devel', branch='devel', submodules=False, preferred=False)
-    version('1', branch='1', submodules=False, preferred=True)
-    version('1.4', branch='1.4', submodules=False, preferred=False)
+    version('devel', branch='devel', submodules=False)
+    version('1', branch='1', submodules=False)
+    version('1.4', branch='1.4', submodules=False)
 
     variant('backend', default='mpi', values=('mpi', 'legion', 'hpx'),
         description='Backend to use for distributed memory', multi=False)
@@ -33,7 +33,7 @@ class FlecsiDeps(BundlePackage):
         description='Build FleCSI Tutorials')
     variant('flecstan', default=False,
         description='Build FleCSI Static Analyzer')
-    variant('cinch', default=True,
+    variant('cinch', default=False,
         description='Enable External Cinch')
 
     depends_on('cmake@3.12:')
