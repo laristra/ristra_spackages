@@ -17,6 +17,9 @@ class FlecsiDeps(BundlePackage):
     version('1', branch='1', submodules=False)
     version('1.4', branch='1.4', submodules=False)
 
+    variant('build_type', default='Release',
+            values=('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel'),
+            description='The build type to build', multi=False)
     variant('backend', default='mpi', values=('mpi', 'legion', 'hpx'),
         description='Backend to use for distributed memory', multi=False)
     variant('debug_backend', default=False,
