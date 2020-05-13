@@ -56,29 +56,13 @@ class Flecsi(CMakePackage):
     variant('cinch', default=True,
             description='Enable External Cinch')
 
-    depends_on('cmake@3.12:')
-    # Requires cinch > 1.0 due to cinchlog installation issue
-    depends_on('cinch@1.01:', type='build', when='+cinch')
-    depends_on('mpi', when='backend=mpi')
-    depends_on('mpi', when='backend=legion')
-    depends_on('mpi', when='backend=hpx')
-    depends_on('legion@ctrl-rep-6+shared+mpi+hdf5 build_type=Debug', when='backend=legion +debug_backend +hdf5')
-    depends_on('legion@ctrl-rep-6+shared+mpi build_type=Debug', when='backend=legion +debug_backend ~hdf5')
-    depends_on('legion@ctrl-rep-6+shared+mpi+hdf5 build_type=Release', when='backend=legion ~debug_backend +hdf5')
-    depends_on('legion@ctrl-rep-6+shared+mpi build_type=Release', when='backend=legion ~debug_backend ~hdf5')
-    depends_on('hpx@1.3.0 cxxstd=14 malloc=system build_type=Debug', when='backend=hpx +debug_backend')
-    depends_on('hpx@1.3.0 cxxstd=14 malloc=system build_type=Release', when='backend=hpx ~debug_backend')
-    depends_on('boost@1.70.0: cxxstd=14 +program_options')
-    depends_on('metis@5.1.0:')
-    depends_on('parmetis@4.0.3:')
-    depends_on('hdf5+mpi', when='+hdf5')
-    depends_on('caliper', when='+caliper')
-    depends_on('graphviz', when='+graphviz')
-    depends_on('python@3.0:', when='+tutorial')
-    depends_on('llvm', when='+flecstan')
+    for b in ['mpi', 'legion', 'hpx']:
+        depends_on("flecsi-deps backend=%s" % b,
+            when="backend=%s" % b)
+    for v in ['debug_backend', 'doxygen', 'hdf5', 'caliper', 'graphviz', 'tutorial', 'flecstan', 'cinch']:
+        depends_on("flecsi-deps +%s" % v, when="+%s" % v)
+        depends_on("flecsi-deps ~%s" % v, when="~%s" % v)
 
-    conflicts('+tutorial', when='backend=hpx')
-    # conflicts('+hdf5', when='backend=hpx')
 
     def cmake_args(self):
         spec = self.spec
