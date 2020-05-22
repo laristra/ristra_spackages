@@ -1,0 +1,10 @@
+*__pycache__
+*.swp
+*.pyc
+*~
+.DS_Store
+*.Linux
+*.tex
+*.log
+*.aux
+.vscode
