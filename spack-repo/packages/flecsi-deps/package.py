@@ -15,7 +15,7 @@ class FlecsiDeps(BundlePackage):
 
     version('devel', branch='devel', submodules=False)
     version('1', branch='1', submodules=False)
-    version('1.4', branch='1.4', submodules=False)
+    version('1.4', branch='1.4', submodules=False, preferred=True)
 
     variant('build_type', default='Release',
             values=('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel'),
