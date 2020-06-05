@@ -54,7 +54,9 @@ export cmd="${spackroot}/bin/spack clean --all"
 export cmd="${spackroot}/bin/spack env create ristra_module_gen"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
-spack env activate -p myenv
+# Activate spack environment
+export cmd="${spackroot}/bin/spack env activate -p ristra_module_gen"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Install spackage
 export cmd="${spackroot}/bin/spack install ${spackSpec}"
@@ -69,7 +71,11 @@ export cmd="${spackroot}/bin/spack module tcl refresh -y ${spackSpec}"
 export cmd="${spackroot}/bin/spack module tcl loads --dependencies ${spackSpec}"
 ( echo "$cmd" ) | tee -a ${modName}.log
 ( $cmd ) | tee -a ${modName}.log ${modName}
-#spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
+# spack env loads -r
+
+# Deactivate spack environment
+export cmd="${spackroot}/bin/spack env deactivate"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Remove spack environment
 export cmd="${spackroot}/bin/spack env rm -y ristra_module_gen"
