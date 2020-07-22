@@ -23,7 +23,7 @@ class Flecsi(CMakePackage):
     version('devel', branch='devel', submodules=False, preferred=False)
     version('1', branch='1', submodules=False, preferred=False)
     version('1.4', branch='1.4', submodules=False, preferred=True)
-    version('flecsph', branch='stable/flecsph', submodules=False, preferred=False)
+    version('flecsph', branch='stable/flecsph', submodules=True, preferred=False)
 
     variant('build_type', default='Release',
             values=('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel'),
