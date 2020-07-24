@@ -61,7 +61,7 @@ class FlecsalemmDeps(BundlePackage):
     depends_on('lua@5.3.5')
     depends_on('netcdf-c@4.7.0:')
     # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
-    depends_on('paraview@5.7.0:', when='+paraview')
+    depends_on('paraview@5.7.0: +python3+osmesa', when='+paraview')
     depends_on('suite-sparse@:5.3.0', when='+trilinos')
     # May come from netcdf but not seeming to propagate correctly on all platforms
     depends_on('hdf5+hl', when='+hdf5')
