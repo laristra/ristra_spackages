@@ -56,7 +56,7 @@ export cmd="${spackroot}/bin/spack install ${spackSpec}"
 #spack install ${spackSpec}
 
 # Refresh spackage modules
-export cmd="${spackroot}/bin/spack module tcl refresh -y ${spackSpec}"
+export cmd="${spackroot}/bin/spack module tcl refresh --delete-tree -y ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Generate module load commands
