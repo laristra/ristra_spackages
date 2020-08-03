@@ -51,11 +51,11 @@ export cmd="${spackroot}/bin/spack clean --all"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Create spack environment
-export cmd="${spackroot}/bin/spack env create ristra_module_gen"
+export cmd="mkdir .spack-env && ${spackroot}/bin/spack env create -d .spack-env"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Activate spack environment
-export cmd="${spackroot}/bin/spack env activate -p ristra_module_gen"
+export cmd="${spackroot}/bin/spack env activate -d .spack-env"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Install spackage
@@ -64,21 +64,20 @@ export cmd="${spackroot}/bin/spack install ${spackSpec}"
 #spack install ${spackSpec}
 
 # Refresh spackage modules
-export cmd="${spackroot}/bin/spack module tcl refresh -y ${spackSpec}"
+export cmd="${spackroot}/bin/spack module tcl refresh --delete-tree -y"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Generate module load commands
-export cmd="${spackroot}/bin/spack module tcl loads --dependencies ${spackSpec}"
+export cmd="${spackroot}/bin/spack env loads -r && mv .spack-env/loads ${modName}"
 ( echo "$cmd" ) | tee -a ${modName}.log
-( $cmd ) | tee -a ${modName}.log ${modName}
-# spack env loads -r
+( $cmd ) | tee -a ${modName}.log #${modName}
 
 # Deactivate spack environment
 export cmd="${spackroot}/bin/spack env deactivate"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Remove spack environment
-export cmd="${spackroot}/bin/spack env rm -y ristra_module_gen"
+export cmd="rm -rf .spack-env"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Clean spackage
@@ -96,4 +95,3 @@ sed -i "1s;^;module load ${compiler}\n;" ${modName}
 
 # And add Module shebang(?)
 sed -i "1s;^;#%Module\n;" ${modName}
-
