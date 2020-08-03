@@ -21,8 +21,9 @@ class Flecsi(CMakePackage):
     git      = 'https://github.com/laristra/flecsi.git'
 
     version('devel', branch='devel', submodules=False, preferred=False)
-    version('1', branch='1', submodules=False, preferred=True)
-    version('1.4', branch='1.4', submodules=False, preferred=False)
+    version('1', branch='1', submodules=False, preferred=False)
+    version('1.4', branch='1.4', submodules=False, preferred=True)
+    version('flecsph', branch='stable/flecsph', submodules=True, preferred=False)
 
     variant('build_type', default='Release',
             values=('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel'),
@@ -87,6 +88,7 @@ class Flecsi(CMakePackage):
         elif spec.variants['backend'].value == 'hpx':
             options.append('-DFLECSI_RUNTIME_MODEL=hpx')
             options.append('-DENABLE_MPI=ON')
+            options.append('-DHPX_IGNORE_CMAKE_BUILD_TYPE_COMPATIBILITY=ON')
         elif spec.variants['backend'].value == 'charmpp':
             options.append('-DFLECSI_RUNTIME_MODEL=charmpp')
             options.append('-DENABLE_MPI=ON')
