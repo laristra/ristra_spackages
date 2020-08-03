@@ -4,7 +4,7 @@ This repository contains the custom spackage files for the repos in laristra fam
 
 ## Basic Usage
 
-We assume the user wish to work in the home directory and already have a spack instance setup.
+We assume the user wish to work in the home directory and already have a spack instance setup.  The minimum required version of spack is 0.15.0.
 
 To get the content of this repo 
 ```
