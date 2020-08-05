@@ -50,7 +50,7 @@ class FlecsiDeps(BundlePackage):
     depends_on('legion+hdf5', when='backend=legion +hdf5')
     depends_on('legion build_type=Debug', when='backend=legion +debug_backend')
 
-    depends_on('hpx@1.4.1 cxxstd=17 malloc=system', when='backend=hpx')
+    depends_on('hpx@1.4.1 cxxstd=17 malloc=system max_cpu_count=128', when='backend=hpx')
     depends_on('hpx build_type=Debug', when='backend=hpx +debug_backend')
 
     depends_on('boost@1.70.0: cxxstd=17 +program_options')
