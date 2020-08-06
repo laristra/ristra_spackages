@@ -57,7 +57,7 @@ class FlecsiDeps(BundlePackage):
     depends_on('metis@5.1.0:')
     depends_on('parmetis@4.0.3:')
     depends_on('googletest@1.8.1+gmock')
-    depends_on('hdf5+mpi', when='+hdf5')
+    depends_on('hdf5+hl+mpi', when='+hdf5')
     depends_on('caliper', when='+caliper')
     depends_on('graphviz', when='+graphviz')
     depends_on('python@3.0:', when='+tutorial')
