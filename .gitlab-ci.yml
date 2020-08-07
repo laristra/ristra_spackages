@@ -1,0 +1,71 @@
+stages:
+  - build
+
+variables:
+  GIT_STRATEGY: fetch
+  GIT_SUBMODULE_STRATEGY: none
+  CI_RUNNTER_SYSTEM: "Darwin"
+  SPACK_REPO: "https://github.com/spack/spack.git"
+  SPACK_REF: "v0.15.3"
+  NGC_PROJECT_MODULE_DIR: "/projects/ngc/private/ristra_module_gen"
+
+before_script:
+  - '[ "$(git rev-parse origin/$CI_COMMIT_REF_NAME)" != "$CI_COMMIT_SHA" ] && curl --header "PRIVATE-TOKEN: $MY_CI_API_TOKEN" -X POST https://gitlab.lanl.gov/api/v4/projects/$CI_PROJECT_ID/pipelines/$CI_PIPELINE_ID/cancel'
+  - export HOME=${CI_PROJECT_DIR}
+  - export TMPDIR=${CI_PROJECT_DIR}
+  - unset SPACK_ROOT
+  - echo ${CI_RUNNER_TAGS}
+  - module load gcc
+
+dry-run:
+  stage: build
+  tags:
+    - laristra-setuid-shared
+  only:
+    refs:
+      - merge_requests
+  variables:
+    SPACK_ENV_DIR: "dry-run"
+  script:
+    - cd ${CI_PROJECT_DIR}
+    - git clone git@gitlab.lanl.gov:laristra/ristra-module-env.git
+    - git clone git@gitlab.lanl.gov:laristra/ristra-spack-configurations.git
+    - echo 'Spack Version:' ${SPACK_REF}
+    - git clone ${SPACK_REPO}
+    - mv spack spack-${SPACK_REF} && cd spack-${SPACK_REF} && git checkout ${SPACK_REF} && cd ${CI_PROJECT_DIR}
+    - export SPACK_ARCH=`./spack-${SPACK_REF}/bin/spack arch`
+    - echo ${SPACK_ARCH}
+    - export PLATFORM="${SPACK_ARCH%%-*}"
+    - echo ${PLATFORM}
+    - mkdir -p ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}
+    - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}/
+    - cp ${CI_PROJECT_DIR}/ristra-module-env/config/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/
+    - . ${CI_PROJECT_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
+    - spack repo add --scope site ${CI_PROJECT_DIR}/spack-repo
+    - spack repo list
+    - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
+    - spack find
+    - spack compilers
+    - spack concretize -f
+
+build:
+  extends: dry-run
+  only:
+    refs:
+      - master
+  variables:
+    SPACK_ENV_DIR: "build"
+  script:
+    - cd ${NGC_PROJECT_MODULE_DIR}
+    - echo 'Spack Version:' ${SPACK_REF}
+    - ./ristra-module-env/utils/update.sh ${SPACK_REF} ${CI_RUNNTER_SYSTEM}
+    - . ${NGC_PROJECT_MODULE_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
+    - spack repo list
+    - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
+    - spack find
+    - spack compilers
+    - spack concretize -f
+    - spack install --show-log-on-error;
+
+after_script:
+  - rm -rf ${CI_PROJECT_DIR}/spack
