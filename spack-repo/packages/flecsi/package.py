@@ -6,7 +6,6 @@
 
 from spack import *
 
-
 class Flecsi(CMakePackage):
     '''FleCSI is a compile-time configurable framework designed to support
        multi-physics application development. As such, FleCSI attempts to
@@ -64,6 +63,8 @@ class Flecsi(CMakePackage):
         depends_on("flecsi-deps +%s" % v, when="+%s" % v)
         depends_on("flecsi-deps ~%s" % v, when="~%s" % v)
 
+    conflicts('+tutorial', when='backend=hpx')
+    # conflicts('+hdf5', when='backend=hpx')
 
     def cmake_args(self):
         spec = self.spec
@@ -144,3 +145,4 @@ class Flecsi(CMakePackage):
             options.append('-DENABLE_COVERAGE_BUILD=OFF')
 
         return options
+
