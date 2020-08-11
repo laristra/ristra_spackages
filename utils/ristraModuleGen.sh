@@ -35,8 +35,8 @@ fi
 echo '' | tee ${modName}
 
 # (Re-)Initialize Spack
-#export cmd="source ${spackroot}/share/spack/setup-env.sh"
-#( echo "$cmd" && $cmd ) | tee ${modName}.log
+export cmd="source ${spackroot}/share/spack/setup-env.sh"
+( echo "$cmd" && $cmd ) | tee ${modName}.log
 #source ${spackroot}/share/spack/setup-env.sh
 
 # Get variables from spack
@@ -51,29 +51,31 @@ export cmd="${spackroot}/bin/spack clean --all"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Create spack environment
-export cmd="mkdir .spack-env && ${spackroot}/bin/spack env create -d .spack-env"
+export cmd="mkdir -p spack-env"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+export cmd="spack env create -d spack-env"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Activate spack environment
-export cmd="${spackroot}/bin/spack env activate -d .spack-env"
+export cmd="spack env activate -d spack-env"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Install spackage
-export cmd="${spackroot}/bin/spack install ${spackSpec}"
+export cmd="spack install ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 #spack install ${spackSpec}
 
 # Generate module load commands
-export cmd="${spackroot}/bin/spack env loads -r && mv .spack-env/loads ${modName}"
+export cmd="spack env loads -r && mv spack-env/loads ${modName}"
 ( echo "$cmd" ) | tee -a ${modName}.log
 ( $cmd ) | tee -a ${modName}.log #${modName}
 
 # Deactivate spack environment
-export cmd="${spackroot}/bin/spack env deactivate"
+export cmd="spack env deactivate"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Remove spack environment
-export cmd="rm -rf .spack-env"
+export cmd="rm -rf spack-env"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Clean spackage
