@@ -54,7 +54,7 @@ class FlecsiDeps(BundlePackage):
     depends_on('parmetis@4.0.3:')
     depends_on('googletest@1.8.1+gmock')
     depends_on('hdf5+hl+mpi', when='+hdf5')
-    depends_on('caliper', when='+caliper')
+    depends_on('caliper@2.0.1~adiak', when='+caliper')
     depends_on('graphviz', when='+graphviz')
     depends_on('python@3.0:', when='+tutorial')
     depends_on('doxygen', when='+doxygen')
