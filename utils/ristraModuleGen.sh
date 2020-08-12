@@ -78,9 +78,12 @@ export cmd="rm -rf ${spackenv}"
 export cmd="${spackroot}/bin/spack clean --all"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
-
 # Comment out LUA ?.so and etc.
 for l in ${spackroot}/share/spack/modules/${spack_arch}/lua/*;
+do
+  sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
+done
+for l in ${spackroot}/share/spack/modules/${spack_arch}/lua*;
 do
   sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
 done
