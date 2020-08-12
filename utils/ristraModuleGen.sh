@@ -19,6 +19,7 @@ compiler="$1"
 spackSpec="$2"
 modName="$3"
 spackroot=""
+spackenv=".ristra-spack-env"
 
 if [ -z "$SPACK_ROOT" ]
 then
@@ -35,9 +36,8 @@ fi
 echo '' | tee ${modName}
 
 # (Re-)Initialize Spack
-export cmd="source ${spackroot}/share/spack/setup-env.sh"
-( echo "$cmd" && $cmd ) | tee ${modName}.log
-#source ${spackroot}/share/spack/setup-env.sh
+#export cmd="source ${spackroot}/share/spack/setup-env.sh"
+#( echo "$cmd" && $cmd ) | tee ${modName}.log
 
 # Get variables from spack
 spackarch=`${spackroot}/bin/spack arch`
@@ -51,31 +51,23 @@ export cmd="${spackroot}/bin/spack clean --all"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Create spack environment
-export cmd="mkdir -p spack-env"
+export cmd="mkdir ${spackenv}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
-export cmd="spack env create -d spack-env"
-( echo "$cmd" && $cmd ) | tee -a ${modName}.log
-
-# Activate spack environment
-export cmd="spack env activate -d spack-env"
+export cmd="${spackroot}/bin/spack env create -d ${spackenv}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Install spackage
-export cmd="spack install ${spackSpec}"
+export cmd="${spackroot}/bin/spack -e ${spackenv} install ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
-#spack install ${spackSpec}
 
 # Generate module load commands
-export cmd="spack env loads -r && mv spack-env/loads ${modName}"
-( echo "$cmd" ) | tee -a ${modName}.log
-( $cmd ) | tee -a ${modName}.log #${modName}
-
-# Deactivate spack environment
-export cmd="spack env deactivate"
+export cmd="${spackroot}/bin/spack -e ${spackenv} env loads -r"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+export cmd="cp ${spackenv}/loads ${modName}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Remove spack environment
-export cmd="rm -rf spack-env"
+export cmd="rm -rf ${spackenv}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Clean spackage
