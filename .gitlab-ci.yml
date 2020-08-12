@@ -5,6 +5,7 @@ variables:
   GIT_STRATEGY: fetch
   GIT_SUBMODULE_STRATEGY: none
   CI_RUNNTER_SYSTEM: "Darwin"
+  CI_SPACKAGE: "flecsalemm-deps"
   SPACK_REPO: "https://github.com/spack/spack.git"
   SPACK_REF: "v0.15.3"
   NGC_PROJECT_MODULE_DIR: "/projects/ngc/private/ristra_module_gen"
@@ -58,7 +59,7 @@ build:
   script:
     - cd ${NGC_PROJECT_MODULE_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
-    - ./ristra-module-env/utils/update.sh ${SPACK_REF} ${CI_RUNNTER_SYSTEM}
+    - ./ristra-module-env/utils/update.sh ${SPACK_REF} ${CI_RUNNTER_SYSTEM} ${CI_SPACKAGE}
     - . ${NGC_PROJECT_MODULE_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
     - spack repo list
     - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
