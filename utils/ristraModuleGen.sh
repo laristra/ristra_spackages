@@ -60,6 +60,10 @@ export cmd="${spackroot}/bin/spack env create -d ${spackenv}"
 export cmd="${spackroot}/bin/spack -e ${spackenv} install ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
+# Refresh spackage
+export cmd="${spackroot}/bin/spack -e ${spackenv} module tcl refresh -y ${spackSpec}"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+
 # Generate module load commands
 export cmd="${spackroot}/bin/spack -e ${spackenv} env loads -r"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
@@ -74,8 +78,16 @@ export cmd="rm -rf ${spackenv}"
 export cmd="${spackroot}/bin/spack clean --all"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
+
+# Comment out LUA ?.so and etc.
+for l in ${spackroot}/share/spack/modules/${spack_arch}/lua/*;
+do
+  sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
+done
+
 # Prepend to module path
 sed -i "1s;^;module use ${spackmod}\n;" ${modName}
+[ -f "${spackroot}/etc/spack/upstreams.yaml" ] && { export upstream_spack_module=`awk '/tcl/{print $NF}' ${SPACK_ROOT}/etc/spack/upstreams.yaml`; sed -i "1s;^;module use ${upstream_spack_module}\n;" $f; }
 
 # And clean up the module path to not overwhelm users with spack
 echo "if { [ module-info mode remove ] } { module unuse ${spackmod} }" >> ${modName}
