@@ -27,6 +27,12 @@ dry-run:
       - merge_requests
   variables:
     SPACK_ENV_DIR: "dry-run"
+  artifacts:
+    name: "ristra_spackages-${CI_COMMIT_REF_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}"
+    when: always
+    expire_in: 1 hour
+    paths:
+      - ${CI_PROJECT_DIR}/spack #/builds/next-generation-codes/laristra/flecsale-mm/spack
   script:
     - cd ${CI_PROJECT_DIR}
     - git clone git@gitlab.lanl.gov:laristra/ristra-module-env.git
@@ -49,13 +55,31 @@ dry-run:
     - spack compilers
     - spack concretize -f
 
-build:
+local-build:
+  extends: dry-run
+  dependencies: [ dry-run ]
+  variables:
+    SPACK_ENV_DIR: "build"
+  artifacts:
+  script:
+    - cd ${CI_PROJECT_DIR}
+    - echo 'Spack Version:' ${SPACK_REF}
+    - . ${CI_PROJECT_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
+    - spack repo list
+    - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
+    - spack find
+    - spack compilers
+    - spack concretize -f
+    - spack install --show-log-on-error
+
+root-build:
   extends: dry-run
   only:
     refs:
       - master
   variables:
     SPACK_ENV_DIR: "build"
+  artifacts:
   script:
     - cd ${NGC_PROJECT_MODULE_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
@@ -66,7 +90,7 @@ build:
     - spack find
     - spack compilers
     - spack concretize -f
-    - spack install --show-log-on-error;
+    - spack install --show-log-on-error
 
 after_script:
   - rm -rf ${CI_PROJECT_DIR}/spack
