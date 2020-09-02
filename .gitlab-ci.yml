@@ -96,6 +96,3 @@ root-build:
     - spack compilers
     - spack concretize -f
     - spack install --show-log-on-error
-
-after_script:
-  - rm -rf ${CI_PROJECT_DIR}/spack
