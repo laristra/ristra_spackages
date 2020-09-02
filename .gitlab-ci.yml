@@ -67,6 +67,8 @@ local-build:
     - cd ${CI_PROJECT_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
     - . ${CI_PROJECT_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
+    - spack reindex
+    - spack module tcl refresh -y
     - spack repo list
     - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
     - spack find
