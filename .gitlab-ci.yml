@@ -59,10 +59,10 @@ dry-run:
 local-build:
   extends: dry-run
   stage: build
+  artifacts:
   dependencies: [ dry-run ]
   variables:
     SPACK_ENV_DIR: "build"
-  artifacts:
   script:
     - cd ${CI_PROJECT_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
