@@ -62,7 +62,7 @@ local-build:
   artifacts:
   dependencies: [ dry-run ]
   variables:
-    SPACK_ENV_DIR: "build"
+    SPACK_ENV_DIR: "local-build"
   script:
     - cd ${CI_PROJECT_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
@@ -83,7 +83,7 @@ root-build:
     refs:
       - master
   variables:
-    SPACK_ENV_DIR: "build"
+    SPACK_ENV_DIR: "root-build"
   artifacts:
   script:
     - cd ${NGC_PROJECT_MODULE_DIR}
