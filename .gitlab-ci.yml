@@ -25,6 +25,7 @@ dry-run:
     - laristra-setuid-shared
   only:
     refs:
+      - master
       - merge_requests
   variables:
     SPACK_ENV_DIR: "dry-run"
@@ -59,6 +60,9 @@ dry-run:
 local-build:
   extends: dry-run
   stage: build
+  only:
+    refs:
+      - master
   artifacts:
   dependencies: [ dry-run ]
   variables:
