@@ -101,5 +101,4 @@ root-build:
     - spack compilers
     - spack concretize -f
     - spack install --show-log-on-error
-    - spack module tcl refresh -y
     - ./ristra-module-env/utils/refresh.sh ${SPACK_REF} ristra-module-env/x86_64/${CI_SPACKAGE}
