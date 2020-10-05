@@ -19,6 +19,7 @@ compiler="$1"
 spackSpec="$2"
 modName="$3"
 spackroot=""
+spackenv=".ristra-spack-env"
 
 if [ -z "$SPACK_ROOT" ]
 then
@@ -37,7 +38,6 @@ echo '' | tee ${modName}
 # (Re-)Initialize Spack
 #export cmd="source ${spackroot}/share/spack/setup-env.sh"
 #( echo "$cmd" && $cmd ) | tee ${modName}.log
-#source ${spackroot}/share/spack/setup-env.sh
 
 # Get variables from spack
 spackarch=`${spackroot}/bin/spack arch`
@@ -50,27 +50,47 @@ echo "spackmod=$spackmod" | tee -a ${modName}.log
 export cmd="${spackroot}/bin/spack clean --all"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
-# Install spackage
-export cmd="${spackroot}/bin/spack install ${spackSpec}"
+# Create spack environment
+export cmd="mkdir ${spackenv}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
-#spack install ${spackSpec}
+export cmd="${spackroot}/bin/spack env create -d ${spackenv}"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
-# Refresh spackage modules
-export cmd="${spackroot}/bin/spack module tcl refresh -y ${spackSpec}"
+# Install spackage
+export cmd="${spackroot}/bin/spack -e ${spackenv} install ${spackSpec}"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+
+# Refresh spackage
+export cmd="${spackroot}/bin/spack -e ${spackenv} module tcl refresh -y ${spackSpec}"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Generate module load commands
-export cmd="${spackroot}/bin/spack module tcl loads --dependencies ${spackSpec}"
-( echo "$cmd" ) | tee -a ${modName}.log
-( $cmd ) | tee -a ${modName}.log ${modName}
-#spack module tcl loads --dependencies ${spackSpec} | tee ${modName}
+export cmd="${spackroot}/bin/spack -e ${spackenv} env loads -r"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+export cmd="cp ${spackenv}/loads ${modName}"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
+
+# Remove spack environment
+export cmd="rm -rf ${spackenv}"
+( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
 # Clean spackage
 export cmd="${spackroot}/bin/spack clean --all"
 ( echo "$cmd" && $cmd ) | tee -a ${modName}.log
 
+# Comment out LUA ?.so and etc.
+for l in ${spackroot}/share/spack/modules/${spack_arch}/lua/*;
+do
+  sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
+done
+for l in ${spackroot}/share/spack/modules/${spack_arch}/lua*;
+do
+  sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
+done
+
 # Prepend to module path
 sed -i "1s;^;module use ${spackmod}\n;" ${modName}
+[ -f "${spackroot}/etc/spack/upstreams.yaml" ] && { export upstream_spack_module=`awk '/tcl/{print $NF}' ${SPACK_ROOT}/etc/spack/upstreams.yaml`; sed -i "1s;^;module use ${upstream_spack_module}\n;" $f; }
 
 # And clean up the module path to not overwhelm users with spack
 echo "if { [ module-info mode remove ] } { module unuse ${spackmod} }" >> ${modName}
@@ -80,4 +100,3 @@ sed -i "1s;^;module load ${compiler}\n;" ${modName}
 
 # And add Module shebang(?)
 sed -i "1s;^;#%Module\n;" ${modName}
-

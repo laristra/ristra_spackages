@@ -58,9 +58,9 @@ class FlecsiSpDeps(BundlePackage):
     #depends_on('boost@1.70.0: cxxstd=14 +program_options')
     #depends_on('metis@5.1.0:')
     #depends_on('parmetis@4.0.3:')
-    #depends_on('hdf5+hl+mpi')
+    depends_on('hdf5+hl+mpi', when='+hdf5')
     #depends_on('lua@5.3.5')
     
     #portage requires LAPACKE
     depends_on('netlib-lapack lapacke=true', when='+portage')
-    
+

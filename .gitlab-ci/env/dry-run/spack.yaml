@@ -1,0 +1,36 @@
+spack:
+  definitions:
+  - pkgs:
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos
+    - flecsi-sp+cinch+hdf5+caliper+doxygen+graphviz+portage
+    - flecsi+cinch+hdf5+caliper+doxygen+graphviz
+  - compilers:
+    - '%gcc@7.4.0'
+    - '%gcc@8.3.0'
+  - backends:
+    - backend=mpi
+    - backend=legion
+    - backend=hpx
+  - mpi_providers:
+    - mpich@3.2.1+slurm
+    - openmpi@3.1.4
+  specs:
+  - matrix:
+    - [$pkgs]
+    - [$compilers]
+    - [$backends]
+    - [$^mpi_providers]
+  - matrix:
+    - [libristra+paraview]
+    - [$compilers]
+    - [$^mpi_providers]
+  packages:
+    all:
+      target: [x86_64]
+      version: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+  view: false
