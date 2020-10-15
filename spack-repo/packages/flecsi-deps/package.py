@@ -59,6 +59,6 @@ class FlecsiDeps(BundlePackage):
     depends_on('python@3.0:', when='+tutorial')
     depends_on('doxygen', when='+doxygen')
     depends_on('llvm', when='+flecstan')
-    depends_on('pfunit')
+    depends_on('pfunit@3.0:3.99')
 
     conflicts('+tutorial', when='backend=hpx')

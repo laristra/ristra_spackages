@@ -29,6 +29,8 @@ class FlecsalemmDeps(BundlePackage):
             description='Enable GraphViz Support')
     variant('tutorial', default=False,
             description='Build FleCSI Tutorials')
+    variant('paraview', default=False,
+            description='Build Paraview Support')
     variant('flecstan', default=False,
         description='Build FleCSI Static Analyzer')
     variant('cinch', default=False,
@@ -63,6 +65,7 @@ class FlecsalemmDeps(BundlePackage):
     depends_on('lua@5.3.5')
     depends_on('netcdf-c@4.7.0:')
     # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
+    depends_on('paraview@5.7.0: +python3+osmesa', when='+paraview')
     depends_on('suite-sparse@:5.3.0', when='+trilinos')
     # May come from netcdf but not seeming to propagate correctly on all platforms
     depends_on('hdf5+hl', when='+hdf5')
@@ -70,3 +73,4 @@ class FlecsalemmDeps(BundlePackage):
     def setup_run_environment(self, env):
         if '+hdf5' in self.spec:
             env.set('HDF5_ROOT', self.spec['hdf5'].prefix)
+        env.set('EXODUSII_ROOT', self.spec['exodusii'].prefix)
