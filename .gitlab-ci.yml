@@ -102,3 +102,4 @@ root-build:
     - spack concretize -f
     - spack install --show-log-on-error
     - ./ristra-module-env/utils/refresh.sh ${SPACK_REF} ristra-module-env/x86_64/${CI_SPACKAGE}
+    - ./ristra-module-env/utils/refresh.sh ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
