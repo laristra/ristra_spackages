@@ -35,6 +35,8 @@ class FlecsalemmDeps(BundlePackage):
         description='Build FleCSI Static Analyzer')
     variant('cinch', default=False,
         description='Enable External Cinch')
+    variant('int64', default=False,
+        description='Enable Metis/ParMetis int64 Support')
     variant('trilinos', default=False,
             description='Enable Trilinos Support')
 
@@ -50,8 +52,10 @@ class FlecsalemmDeps(BundlePackage):
     depends_on('cmake@3.12:')
     #depends_on('charmpp backend=mpi', when='backend=charm++')
     depends_on('boost@1.70.0: cxxstd=17 +program_options')
-    depends_on('metis+int64@5.1.0:')
-    depends_on('parmetis+int64@4.0.3:')
+    depends_on('metis@5.1.0:')
+    depends_on('parmetis@4.0.3:')
+    depends_on('metis+int64@5.1.0:', when='+int64')
+    depends_on('parmetis+int64@4.0.3:', when='+int64')
     depends_on('trilinos@12.12.1:12.14.1~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext~exodus+explicit_template_instantiation~float+fortran~fortrilinos+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2~gtest', when='+trilinos')
     depends_on('gotcha')
     depends_on('eospac@6.4.0:')
