@@ -20,23 +20,23 @@ class FlecsiDeps(BundlePackage):
             values=('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel'),
             description='The build type to build', multi=False)
     variant('backend', default='mpi', values=('mpi', 'legion', 'hpx'),
-        description='Backend to use for distributed memory', multi=False)
+            description='Backend to use for distributed memory', multi=False)
     variant('debug_backend', default=False,
-        description='Build Backend with Debug Mode')
+            description='Build Backend with Debug Mode')
     variant('doxygen', default=False,
-        description='Enable doxygen')
+            description='Enable doxygen')
     variant('hdf5', default=True,
-        description='Enable HDF5 Support')
+            description='Enable HDF5 Support')
     variant('caliper', default=False,
-        description='Enable Caliper Support')
+            description='Enable Caliper Support')
     variant('graphviz', default=False,
-        description='Enable GraphViz Support')
+            description='Enable GraphViz Support')
     variant('tutorial', default=False,
-        description='Build FleCSI Tutorials')
+            description='Build FleCSI Tutorials')
     variant('flecstan', default=False,
-        description='Build FleCSI Static Analyzer')
+            description='Build FleCSI Static Analyzer')
     variant('cinch', default=False,
-        description='Enable External Cinch')
+            description='Enable External Cinch')
 
     depends_on('cmake@3.12:')
     # Requires cinch > 1.0 due to cinchlog installation issue
