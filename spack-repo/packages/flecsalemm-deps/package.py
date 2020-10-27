@@ -39,6 +39,8 @@ class FlecsalemmDeps(BundlePackage):
         description='Enable Metis/ParMetis int64 Support')
     variant('trilinos', default=False,
             description='Enable Trilinos Support')
+    variant('portage', default=False,
+            description='Add Some Portage Dependencies')
 
     for b in ['mpi', 'legion', 'hpx']:
         depends_on("flecsi-deps backend=%s" % b,
@@ -64,6 +66,7 @@ class FlecsalemmDeps(BundlePackage):
     depends_on('hypre')
     depends_on('lua@5.3.5')
     depends_on('netcdf-c@4.7.0:')
+    depends_on('portage-deps', when='+portage')
     # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
     depends_on('paraview@5.7.0: +python3+osmesa', when='+paraview')
     depends_on('suite-sparse@:5.3.0', when='+trilinos')
