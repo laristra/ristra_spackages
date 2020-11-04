@@ -37,7 +37,6 @@ dry-run:
       - ${CI_PROJECT_DIR}/spack-${SPACK_REF} #/builds/next-generation-codes/laristra/flecsale-mm/spack-${SPACK_REF}
   script:
     - cd ${CI_PROJECT_DIR}
-    - git clone git@gitlab.lanl.gov:laristra/ristra-module-env.git
     - git clone git@gitlab.lanl.gov:laristra/ristra-spack-configurations.git
     - echo 'Spack Version:' ${SPACK_REF}
     - git clone ${SPACK_REPO}
@@ -48,7 +47,7 @@ dry-run:
     - echo ${PLATFORM}
     - mkdir -p ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}
     - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}/
-    - cp ${CI_PROJECT_DIR}/ristra-module-env/config/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/
+    - cp ${CI_PROJECT_DIR}/rristra-spack-configurations/common/config/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/
     - . ${CI_PROJECT_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
     - spack repo add --scope site ${CI_PROJECT_DIR}/spack-repo
     - spack repo list
@@ -93,7 +92,7 @@ root-build:
   script:
     - cd ${NGC_PROJECT_MODULE_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
-    - ./ristra-module-env/utils/update.sh ${SPACK_REF} ${CI_RUNNTER_SYSTEM} ${CI_SPACKAGE}
+    - ./ristra_spackages/utils/update.sh ${SPACK_REF} ${CI_RUNNTER_SYSTEM} ${CI_SPACKAGE}
     - . ${NGC_PROJECT_MODULE_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
     - spack repo list
     - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
@@ -101,5 +100,5 @@ root-build:
     - spack compilers
     - spack concretize -f
     - spack install --show-log-on-error
-    - ./ristra-module-env/utils/refresh.sh ${SPACK_REF} ristra-module-env/x86_64/${CI_SPACKAGE}
-    - ./ristra-module-env/utils/refresh.sh ${SPACK_REF} ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
+    - ./ristra_spackages/utils/refresh.sh ${SPACK_REF} ristra_spackages/env/x86_64/${CI_SPACKAGE}
+    - ./ristra_spackages/utils/refresh.sh ${SPACK_REF} ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
