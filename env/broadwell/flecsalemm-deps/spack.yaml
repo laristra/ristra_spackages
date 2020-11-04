@@ -1,0 +1,38 @@
+spack:
+  definitions:
+  - pkgs:
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos+portage
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos+portage+paraview
+  - compilers:
+    - '%gcc@7.4.0'
+    - '%gcc@8.3.0'
+  - backends:
+    - backend=mpi
+    - backend=legion
+  - mpi_providers:
+    - mvapich2@2.3.4+debug fabrics=psm2 process_managers=slurm
+    - mpich@3.2.1+slurm+verbs
+    - openmpi@3.1.4 fabrics=auto
+  specs:
+  - matrix:
+    - [$pkgs]
+    - [$compilers]
+    - [$backends]
+    - [$^mpi_providers]
+    exclude:
+    - flecsalemm-deps+paraview ^openmpi
+    - flecsalemm-deps+paraview ^mpich
+  packages:
+    all:
+      target: []
+      permissions:
+        read: world
+        write: group
+        group: ristra-admin
+      version: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+  view: false

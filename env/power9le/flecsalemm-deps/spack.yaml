@@ -1,0 +1,33 @@
+spack:
+  definitions:
+  - pkgs:
+    - flecsalemm-deps+hdf5+doxygen+caliper+graphviz+trilinos
+  - compilers:
+    - '%gcc@7.4.0'
+    - '%gcc@8.3.0'
+  - backends:
+    - backend=mpi
+    - backend=legion
+  - mpi_providers:
+    - mpich@3.2.1+slurm+verbs
+    - openmpi@3.1.4 fabrics=auto
+  specs:
+  - matrix:
+    - [$pkgs]
+    - [$compilers]
+    - [$backends]
+    - [$^mpi_providers]
+  packages:
+    all:
+      permissions:
+        read: world
+        write: group
+        group: ristra-admin
+      version: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+      target: []
+  view: false
