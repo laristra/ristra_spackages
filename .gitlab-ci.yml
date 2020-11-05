@@ -48,7 +48,6 @@ dry-run:
     - mkdir -p ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}
     - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}/
     - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/common/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/
-    - rm ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}/upstreams.yaml
     - . ${CI_PROJECT_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
     - spack repo add --scope site ${CI_PROJECT_DIR}/spack-repo
     - spack repo list
