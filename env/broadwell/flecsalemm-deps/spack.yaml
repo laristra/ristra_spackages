@@ -20,8 +20,8 @@ spack:
     - [$backends]
     - [$^mpi_providers]
     exclude:
-    - flecsalemm-deps+paraview ^openmpi
-    - flecsalemm-deps+paraview ^mpich
+    - +paraview ^openmpi
+    - +paraview ^mpich
   packages:
     all:
       target: []
