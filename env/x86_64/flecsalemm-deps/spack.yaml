@@ -19,7 +19,7 @@ spack:
     - [$backends]
     - [$^mpi_providers]
     exclude:
-    - flecsalemm-deps+paraview ^openmpi
+    - +paraview ^openmpi
   packages:
     all:
       target: [x86_64]
