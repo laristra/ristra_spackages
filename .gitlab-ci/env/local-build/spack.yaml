@@ -7,7 +7,7 @@ spack:
   - backends:
     - backend=mpi
   - mpi_providers:
-    - mpich@3.2.1+slurm
+    - mpich@3.2.1+slurm+verbs
   specs:
   - matrix:
     - [$pkgs]

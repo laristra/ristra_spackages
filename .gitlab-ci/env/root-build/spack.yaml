@@ -9,8 +9,8 @@ spack:
     - backend=mpi
     - backend=legion
   - mpi_providers:
-    - mpich@3.2.1+slurm
-    - openmpi@3.1.4
+    - mpich@3.2.1+slurm+verbs
+    - openmpi@3.1.4 fabrics=auto
   specs:
   - matrix:
     - [$pkgs]
