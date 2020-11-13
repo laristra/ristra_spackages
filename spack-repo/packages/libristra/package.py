@@ -19,11 +19,15 @@ class Libristra(CMakePackage):
             description='The build type to build', multi=False)
     variant('paraview', default=False,
             description='Enable ParaView')
+    variant('shared_lua', default=False,
+            description='Build with shared lua')
 
     depends_on('cmake@3.12:')
     depends_on('mpi')
     depends_on('boost@1.70.0: cxxstd=17 +program_options')
     depends_on('lua@5.3.5')
+    depends_on('lua~shared', when='~shared_lua')
+    depends_on('lua+shared', when='+shared_lua')
     # TODO: might want to move paraview out of libristra
     depends_on('paraview', when='+paraview')
     # We explicitly depend on gtest and can no longer rely on others for it
