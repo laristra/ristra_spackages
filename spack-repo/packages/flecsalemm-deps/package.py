@@ -41,6 +41,8 @@ class FlecsalemmDeps(BundlePackage):
             description='Enable Trilinos Support')
     variant('portage', default=False,
             description='Add Some Portage Dependencies')
+    variant('shared_lua', default=False,
+            description='Build with shared lua')
 
     for b in ['mpi', 'legion', 'hpx']:
         depends_on("flecsi-deps backend=%s" % b,
@@ -65,6 +67,8 @@ class FlecsalemmDeps(BundlePackage):
     depends_on('random123')
     depends_on('hypre')
     depends_on('lua@5.3.5')
+    depends_on('lua~shared', when='~shared_lua')
+    depends_on('lua+shared', when='+shared_lua')
     depends_on('netcdf-c@4.7.0:')
     depends_on('portage-deps', when='+portage')
     # Not actually a flecaslemm-dep but related to fixing dependency/trilinos issues
