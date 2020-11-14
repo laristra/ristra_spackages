@@ -1,7 +1,7 @@
 spack:
   definitions:
   - pkgs:
-    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz
   - compilers:
     - '%gcc@7.4.0'
   - backends:
