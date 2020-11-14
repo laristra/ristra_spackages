@@ -1,7 +1,7 @@
 spack:
   definitions:
   - pkgs:
-    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos+portage+paraview
   - compilers:
     - '%gcc@7.4.0'
     - '%gcc@8.3.0'
@@ -17,6 +17,8 @@ spack:
     - [$compilers]
     - [$backends]
     - [$^mpi_providers]
+    exclude:
+    - +paraview ^openmpi
   packages:
     all:
       target: [x86_64]
