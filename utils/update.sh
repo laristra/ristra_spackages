@@ -20,8 +20,15 @@ system="$2"
 packagename="$3"
 
 export SPACK_ROOT=`pwd`/${spack_version}
-[ ${packagename} == "flecsalemm-deps" ] && export mirror=`pwd`/ristra_spack_mirrors/${packagename}-mirror
-[ ${packagename} != "flecsalemm-deps" ] && export mirror=`pwd`/ristra_spack_mirrors_pro/${packagename}-mirror
+if [ ${packagename} == "ristra-deps" ];
+then
+  export mirror=`pwd`/ristra_spack_mirrors/${packagename}-mirror;
+elif [ ${packagename} == "flecsalemm-deps" ];
+then
+  export mirror=`pwd`/ristra_spack_mirrors/${packagename}-mirror;
+else
+  export mirror=`pwd`/ristra_spack_mirrors_pro/${packagename}-mirror;
+fi
 
 [ ! -d "${SPACK_ROOT}" ] && { git clone https://github.com/spack/spack.git; mv spack ${spack_version}; cd ${spack_version}; git init --shared=group . ; git checkout ${spack_version##*-}; cd ..; }
 
@@ -43,7 +50,7 @@ rm -rf ${spack_version}/etc/spack/*.yaml
 echo "Copy ristra-spack-configurations/${platform}/*.yaml into ${spack_version}/etc/spack/${platform}"
 cp ristra-spack-configurations/common/*.yaml ${spack_version}/etc/spack/
 cp ristra-spack-configurations/${system}/*.yaml ${spack_version}/etc/spack/${platform}/
-[ ${packagename} != "flecsalemm-deps" ] && cp ristra-spack-configurations/${system}/pro/*.yaml ${spack_version}/etc/spack/${platform}/
+[ ${packagename} == "symphony-deps" ] && cp ristra-spack-configurations/${system}/pro/*.yaml ${spack_version}/etc/spack/${platform}/
 
 # HPC mirror has cached an older version of flecsi and cinch
 ${SPACK_ROOT}/bin/spack mirror rm --scope site lanl
@@ -56,7 +63,7 @@ git pull
 cd ..
 ${SPACK_ROOT}/bin/spack repo add --scope site ristra_spackages/spack-repo || /bin/true
 
-if [ ${packagename} != "flecsalemm-deps" ];
+if [ ${packagename} == "symphony-deps" ];
 then
   [ ! -d "ristra_spackages_pro" ] && git clone git@gitlab.lanl.gov:laristra/ristra_spackages_pro.git;
   cd ristra_spackages_pro;
@@ -68,6 +75,8 @@ fi
 
 echo "Update ${mirror}"
 mkdir -p ${mirror}
+[ ${packagename} == "ristra-deps" ] && export packagename=flecsalemm-deps;
+
 ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies ${packagename}+hdf5+caliper+trilinos%gcc backend=legion ^mpich@3.2.1+slurm
 ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies ${packagename}+doxygen+graphviz+portage+paraview%gcc backend=hpx ^openmpi@3.1.4
 #${SPACK_ROOT}/bin/spack mirror add --scope site ${packagename} "file://${mirror}"
