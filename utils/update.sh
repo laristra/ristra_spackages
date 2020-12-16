@@ -50,6 +50,7 @@ rm -rf ${spack_version}/etc/spack/*.yaml
 echo "Copy ristra-spack-configurations/${platform}/*.yaml into ${spack_version}/etc/spack/${platform}"
 cp ristra-spack-configurations/common/*.yaml ${spack_version}/etc/spack/
 cp ristra-spack-configurations/${system}/*.yaml ${spack_version}/etc/spack/${platform}/
+[ ${packagename} == "flecsalemm-deps" ] && cp ristra-spack-configurations/${system}/private/*.yaml ${spack_version}/etc/spack/${platform}/
 [ ${packagename} == "symphony-deps" ] && cp ristra-spack-configurations/${system}/pro/*.yaml ${spack_version}/etc/spack/${platform}/
 
 # HPC mirror has cached an older version of flecsi and cinch
