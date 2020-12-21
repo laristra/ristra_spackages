@@ -37,16 +37,19 @@ target="${spack_arch##*-}"
 export spack_arch=${spack_arch%-*}-${target}
 
 echo 'Concretizing...'
+[ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsalemm-deps concretize -f
 [ ${modulename} == "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/${modulename} concretize -f
-[ ${modulename} != "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} concretize -f
+[ ${modulename} == "symphony-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} concretize -f
 
 echo 'spack install -y --show-log-on-error'
+[ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsalemm-deps install -y --show-log-on-error --only dependencies
 [ ${modulename} == "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/${modulename} install -y --show-log-on-error
-[ ${modulename} != "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} install -y --show-log-on-error
+[ ${modulename} == "symphony-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} install -y --show-log-on-error
 
 echo 'Running refresh.sh'
+[ ${modulename} == "ristra-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/flecsalemm-deps
 [ ${modulename} == "flecsalemm-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/${modulename}
-[ ${modulename} != "flecsalemm-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages_pro/env/${target}/${modulename}
+[ ${modulename} == "symphony-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages_pro/env/${target}/${modulename}
 
 #echo 'Symlink modulefiles'
 #mkdir -p ${modulefiles} && cd ${modulefiles} && mkdir -p ${spack_arch} && cd ${spack_arch}
@@ -54,8 +57,9 @@ echo 'Running refresh.sh'
 
 mkdir -p ${modulefiles}
 cd ${modulefiles}
+[ ${modulename} == "ristra-deps" ] && export topmodulename="${spack_arch}-${version}-public"
 [ ${modulename} == "flecsalemm-deps" ] && export topmodulename="${spack_arch}-${version}"
-[ ${modulename} != "flecsalemm-deps" ] && export topmodulename="${spack_arch}-${version}-pro"
+[ ${modulename} == "symphony-deps" ] && export topmodulename="${spack_arch}-${version}-pro"
 if [ ! -f "${topmodulename}" ];
 then
 #for f in ${modulename}/*;
