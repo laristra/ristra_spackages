@@ -37,11 +37,11 @@ export spack_arch=${spack_arch%-*}-${target}
 echo 'spack module tcl refresh -y'
 ${SPACK_ROOT}/bin/spack -e ${spackenvname} module tcl refresh -y
 
-echo 'Comment out LUA ?.so and etc.'
-for l in ${SPACK_ROOT}/share/spack/modules/${spack_arch}/lua/*;
-do
-  sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
-done
+#echo 'Comment out LUA ?.so and etc.' -> achieve by blacklisting the LUA_PATH and LUA_CPATH vars
+#for l in ${SPACK_ROOT}/share/spack/modules/${spack_arch}/lua/*;
+#do
+#  sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
+#done
 
 echo 'Add load gcc'
 for d in ${SPACK_ROOT}/share/spack/modules/${spack_arch}/*;
