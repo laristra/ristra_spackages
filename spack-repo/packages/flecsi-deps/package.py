@@ -25,6 +25,8 @@ class FlecsiDeps(BundlePackage):
             description='Build Backend with Debug Mode')
     variant('doxygen', default=False,
             description='Enable doxygen')
+    variant('coverage', default=False,
+            description='Enable coverage build')
     variant('hdf5', default=True,
             description='Enable HDF5 Support')
     variant('caliper', default=False,
