@@ -44,6 +44,7 @@ class FlecsalemmDeps(BundlePackage):
     variant('shared_lua', default=False,
             description='Build with shared lua')
 
+    depends_on("flecsi-deps @1:1.9")
     for b in ['mpi', 'legion', 'hpx']:
         depends_on("flecsi-deps backend=%s" % b,
             when="backend=%s" % b)
