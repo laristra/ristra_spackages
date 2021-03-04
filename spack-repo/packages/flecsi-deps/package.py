@@ -12,7 +12,7 @@ class FlecsiDeps(BundlePackage):
     homepage = 'http://flecsi.org/'
     git      = 'https://github.com/laristra/flecsi.git'
 
-    version('devel', branch='devel', submodules=False)
+    version('develop', branch='devel', submodules=False)
     version('1', branch='1', submodules=False)
     version('1.4', branch='1.4', submodules=False, preferred=True)
 
