@@ -37,6 +37,7 @@ class FlecsiSpDeps(BundlePackage):
     variant('portage', default=False,
             description='Enable Portage Support')
 
+    depends_on("flecsi-deps @1:1.9")
     for b in ['mpi', 'legion', 'hpx']:
         depends_on("flecsi-deps backend=%s" % b,
             when="backend=%s" % b)
