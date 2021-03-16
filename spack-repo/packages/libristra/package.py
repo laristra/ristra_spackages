@@ -8,9 +8,12 @@ from spack import *
 
 
 class Libristra(CMakePackage):
-    '''Libristra is a support library for other ristra codes.
-    '''
+    """Libristra is a support library for other ristra codes.
+    """
+    homepage = 'https://github.com/laristra/libristra'
+    url = 'https://github.com/laristra/libristra/archive/master.zip'
     git      = 'https://github.com/laristra/libristra.git'
+    tags = ['ristra']
 
     version('master', branch='master', submodules=False, preferred=True)
     version('1.0.0', commit='33235fe0334ca7f1f99b386a90932d9f8e1e71de')
