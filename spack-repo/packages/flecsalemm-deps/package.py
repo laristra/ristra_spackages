@@ -43,6 +43,8 @@ class FlecsalemmDeps(BundlePackage):
             description='Add Some Portage Dependencies')
     variant('shared_lua', default=False,
             description='Build with shared lua')
+    variant('tide', default=False,
+            description='Build with tide support')
 
     depends_on("flecsi-deps @1:1.9")
     for b in ['mpi', 'legion', 'hpx']:
@@ -76,6 +78,9 @@ class FlecsalemmDeps(BundlePackage):
     depends_on('suite-sparse@:5.3.0', when='+trilinos')
     # May come from netcdf but not seeming to propagate correctly on all platforms
     depends_on('hdf5+hl', when='+hdf5')
+    # make sure tide and sphinx are installed for downstream project usage
+    depends_on('tide@0.2.0', when='+tide')
+    depends_on('py-sphinx@3.0.0:', when='+tide')
 
     def setup_run_environment(self, env):
         if '+hdf5' in self.spec:
