@@ -68,6 +68,7 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('hdf5+mpi', when='+hdf5')
     depends_on('metis@5.1.0:')
     depends_on('parmetis@4.0.3:')
+    depends_on('boost@1.70.0: cxxstd=17 +program_options')
 
     # Flecsi@1.x
     depends_on('cmake@3.12:', when='@:1.9')
@@ -81,9 +82,8 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('legion build_type=Debug', when='backend=legion +debug_backend @:1.9')
     depends_on('hpx@1.4.1 cxxstd=17 malloc=system max_cpu_count=128', when='backend=hpx @:1.9')
     depends_on('hpx build_type=Debug', when='backend=hpx +debug_backend @:1.9')
-    depends_on('boost@1.70.0: cxxstd=17 +program_options', when='@:1.9')
     depends_on('googletest@1.8.1+gmock', when='@:1.9')
-    depends_on('hdf5+hl+mpi', when='+hdf5 @:1.9')
+    depends_on('hdf5+hl', when='+hdf5 @:1.9')
     depends_on('python@3.0:', when='+tutorial @:1.9')
     depends_on('doxygen', when='+doxygen @:1.9')
     depends_on('llvm', when='+flecstan @:1.9')
@@ -92,18 +92,15 @@ class Flecsi(CMakePackage, CudaPackage):
 
     # Flecsi@2.x
     depends_on('cmake@3.15:', when='@2.0:')
-    depends_on('boost@1.70.0 cxxstd=17 +program_options +atomic +filesystem +regex +system', when='@2.0:')
-    depends_on('graphviz', when='+graphviz @2.0:')
+    depends_on('boost@1.70.0 +atomic +filesystem +regex +system', when='@2.0:')
     depends_on('kokkos@3.2.00:', when='+kokkos @2.0:')
     depends_on('legion@ctrl-rep-9:ctrl-rep-99',when='backend=legion @2.0:')
-    depends_on('legion+hdf5',when='backend=legion +hdf5 @2.0:')
-    depends_on('hdf5@1.10.7:',when='backend=legion +hdf5 @2.0:')
+    depends_on('legion+hdf5', when='backend=legion +hdf5 @2.0:')
+    depends_on('hdf5@1.10.7:', when='backend=legion +hdf5 @2.0:')
     depends_on('hpx@1.3.0 cxxstd=17 malloc=system',when='backend=hpx @2.0:')
     depends_on('kokkos@3.2.00:', when='+kokkos @2.0:')
     depends_on('mpich@3.4.1', when='@2.0: ^mpich')
     depends_on('openmpi@4.1.0', when='@2.0: ^openmpi')
-
-
 
     conflicts('+tutorial', when='backend=hpx')
     # Flecsi@2: no longer supports serial or charmpp backends
@@ -132,7 +129,6 @@ class Flecsi(CMakePackage, CudaPackage):
     conflicts('+unit_tests', when='~flog')
 
     def cmake_args(self):
-        #TODO: Add a big switch on version because of course
         spec = self.spec
         options = []
 
@@ -235,6 +231,9 @@ class Flecsi(CMakePackage, CudaPackage):
             options.append('-DENABLE_COVERAGE_BUILD=ON')
         else:
             options.append('-DENABLE_COVERAGE_BUILD=OFF')
+
+        if spec.satisfies('@:1.9'):
+            pass
 
         return options
 
