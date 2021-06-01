@@ -6,7 +6,7 @@
 
 from spack import *
 
-class Flecsi(CMakePackage):
+class Flecsi(CMakePackage, CudaPackage):
     '''FleCSI is a compile-time configurable framework designed to support
        multi-physics application development. As such, FleCSI attempts to
        provide a very general set of infrastructure design patterns that can
@@ -22,6 +22,7 @@ class Flecsi(CMakePackage):
     version('develop', branch='devel', submodules=False)
     version('1', git="https://github.com/laristra/flecsi.git", branch='1', submodules=False, preferred=False)
     version('1.4', git="https://github.com/laristra/flecsi.git",  branch='1.4', submodules=False, preferred=True)
+    version('flecsph', git="https://github.com/laristra/flecsi.git", branch="stable/flecsph", submodules=True, preferred=False)
 
     variant('backend', default='mpi', values=('serial', 'mpi', 'legion', 'hpx', 'charmpp'),
             description='Backend to use for distributed memory', multi=False)
@@ -56,6 +57,8 @@ class Flecsi(CMakePackage):
             description='Enable Kokkos Support')
     variant('unit_tests', default=False,
             description='Build with Unit Tests Enabled')
+    variant('openmp', default=False,
+            description='Enable OpenMP Support')
 
     # All Current FLecsi Releases
     for level in ('low', 'medium', 'high'):
@@ -121,25 +124,28 @@ class Flecsi(CMakePackage):
     conflicts('+flecstan', when='@2.0:')
     # Flecsi@2: integrates cinch and no longer depends on external installs
     conflicts('+external_cinch', when='@2.0:')
-    # Current Flecsi@:1.9 releases do not support kokkos
+    # Current Flecsi@:1.9 releases do not support kokkos, omp, or cuda
     conflicts('+kokkos', when='@:1.9')
+    conflicts('+openmp', when='@:1.9')
+    conflicts('+cuda', when='@:1.9')
     # Unit tests require flog support
     conflicts('+unit_tests', when='~flog')
 
     def cmake_args(self):
         #TODO: Add a big switch on version because of course
         spec = self.spec
-        options = ['-DENABLE_OPENMP=ON',
-                   '-DCXX_CONFORMANCE_STANDARD=c++17',
-                   '-DENABLE_METIS=ON',
-                   '-DENABLE_PARMETIS=ON',
-                   '-DENABLE_COLORING=ON',
-                   '-DENABLE_DEVEL_TARGETS=ON'
-                   ]
+        options = []
 
-        if '+cinch' in spec:
+        #options = ['-DENABLE_OPENMP=ON',
+        #           '-DCXX_CONFORMANCE_STANDARD=c++17',
+        #           '-DENABLE_METIS=ON',
+        #           '-DENABLE_PARMETIS=ON',
+        #           '-DENABLE_COLORING=ON',
+        #           '-DENABLE_DEVEL_TARGETS=ON'
+        #           ]
+
+        if '+external_cinch' in spec:
             options.append('-DCINCH_SOURCE_DIR=' + spec['cinch'].prefix)
-
 
         if spec.variants['backend'].value == 'legion':
             options.append('-DFLECSI_RUNTIME_MODEL=legion')
@@ -158,28 +164,53 @@ class Flecsi(CMakePackage):
             options.append('-DFLECSI_RUNTIME_MODEL=serial')
             options.append('-DENABLE_MPI=OFF')
 
-        if self.run_tests:
-            options.append('-DENABLE_UNIT_TESTS=ON')
-        else:
-            options.append('-DENABLE_UNIT_TESTS=OFF')
-
-        if '+minimal' in spec:
-            options.append('-DCMAKE_DISABLE_FIND_PACKAGE_METIS=ON')
-        else:
-            options.append('-DCMAKE_DISABLE_FIND_PACKAGE_METIS=OFF')
         if '+shared' in spec:
             options.append('-DBUILD_SHARED_LIBS=ON')
         else:
             options.append('-DBUILD_SHARED_LIBS=OFF')
 
+        options.append('-DCALIPER_DETAIL=%s' %
+            spec.variants['caliper_detail'].value)
+        if spec.satisfies('@:1.9'):
+            if spec.variants['caliper_detail'].value == 'none':
+                options.append('-DENABLE_CALIPER=OFF')
+            else:
+                options.append('-DENABLE_CALIPER=ON')
+
+        if self.run_tests or '+unit' in spec:
+            options.append('-DENABLE_UNIT_TESTS=ON')
+        else:
+            options.append('-DENABLE_UNIT_TESTS=OFF')
+
+        if ('+flog' in spec):
+            options.append('-DENABLE_FLOG=ON')
+        else:
+            options.append('-DENABLE_FLOG=OFF')
+
         if '+hdf5' in spec and spec.variants['backend'].value != 'hpx':
             options.append('-DENABLE_HDF5=ON')
         else:
             options.append('-DENABLE_HDF5=OFF')
-        if '+caliper' in spec:
-            options.append('-DENABLE_CALIPER=ON')
+
+        if '+graphviz' in spec:
+            options.append('-DENABLE_GRAPHVIZ=ON')
         else:
-            options.append('-DENABLE_CALIPER=OFF')
+            options.append('-DENABLE_GRAPHVIZ=OFF')
+
+        if '+kokkos' in spec:
+            options.append('-DENABLE_KOKKOS=ON')
+        else:
+            options.append('-DENABLE_KOKKOS=OFF')
+        if '+openmp' in spec:
+            options.append('-DENABLE_OPENMP=ON')
+        else:
+            options.append('-DENABLE_OPENMP=OFF')
+
+        if '+minimal' in spec:
+            options.append('-DCMAKE_DISABLE_FIND_PACKAGE_METIS=ON')
+        else:
+            options.append('-DCMAKE_DISABLE_FIND_PACKAGE_METIS=OFF')
+
         if '+tutorial' in spec:
             options.append('-DENABLE_FLECSIT=ON')
             options.append('-DENABLE_FLECSI_TUTORIAL=ON')
