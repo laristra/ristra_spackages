@@ -31,7 +31,7 @@ class FlecsalemmDeps(BundlePackage):
             description='Build FleCSI Tutorials')
     variant('paraview', default=False,
             description='Build Paraview Support')
-    variant('external_cinch', default=False,
+    variant('external_cinch', default=True,
         description='Enable External Cinch')
     variant('int64', default=False,
         description='Enable Metis/ParMetis int64 Support')
@@ -52,6 +52,8 @@ class FlecsalemmDeps(BundlePackage):
         depends_on("flecsi +%s" % v, when="+%s" % v)
         depends_on("flecsi ~%s" % v, when="~%s" % v)
     depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
+
+    depends_on("flecsi-sp")
 
 
     depends_on('pkgconfig', type='build')
