@@ -1,9 +1,9 @@
 spack:
   definitions:
   - pkgs:
-    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos  ^flecsi+doxygen+graphviz ^flecsi-sp+doxygen+graphviz ^caliper~libdw
-    - flecsi-sp+external_cinch+hdf5+caliper+doxygen+graphviz+portage ^flecsi+doxygen+graphviz ^caliper~libdw
-    - flecsi+external_cinch+hdf5 caliper_detail=medium +doxygen+graphviz ^caliper@2.0.1~adiak~libdw ^hdf5+hl
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos  ^flecsi+doxygen+graphviz ^flecsi-sp+doxygen+graphviz
+    - flecsi-sp+external_cinch+hdf5+caliper+doxygen+graphviz+portage ^flecsi+doxygen+graphviz
+    - flecsi+external_cinch+hdf5 caliper_detail=medium +doxygen+graphviz ^caliper@2.0.1~adiak ^hdf5+hl
   - compilers:
     - '%gcc@7.4.0'
     - '%gcc@8.3.0'
