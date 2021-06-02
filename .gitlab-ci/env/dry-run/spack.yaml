@@ -1,7 +1,7 @@
 spack:
   definitions:
   - pkgs:
-    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos ^flecsi~external_cinch
     - flecsi-sp+cinch+hdf5+caliper+doxygen+graphviz+portage
     - flecsi+cinch+hdf5+caliper+doxygen+graphviz
   - compilers:
