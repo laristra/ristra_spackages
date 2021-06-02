@@ -48,6 +48,8 @@ class FlecsalemmDeps(BundlePackage):
     for b in ['mpi', 'legion', 'hpx']:
         depends_on("flecsi backend=%s" % b,
             when="backend=%s" % b)
+        depends_on("flecsi-sp backend=%s" % b,
+            when="backend=%s" % b)
     for v in ['debug_backend', 'doxygen', 'hdf5', 'graphviz', 'tutorial', 'external_cinch']:
         depends_on("flecsi +%s" % v, when="+%s" % v)
         depends_on("flecsi ~%s" % v, when="~%s" % v)
