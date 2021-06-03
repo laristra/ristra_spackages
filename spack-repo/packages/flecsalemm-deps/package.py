@@ -45,6 +45,7 @@ class FlecsalemmDeps(BundlePackage):
             description='Build with tide support')
 
     depends_on("flecsi @1:1.9")
+    depends_on("flecsi-sp@1.4")
     for b in ['mpi', 'legion', 'hpx']:
         depends_on("flecsi backend=%s" % b,
             when="backend=%s" % b)
@@ -54,9 +55,6 @@ class FlecsalemmDeps(BundlePackage):
         depends_on("flecsi +%s" % v, when="+%s" % v)
         depends_on("flecsi ~%s" % v, when="~%s" % v)
     depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
-
-    depends_on("flecsi-sp")
-
 
     depends_on('pkgconfig', type='build')
     depends_on('cmake@3.12:')
