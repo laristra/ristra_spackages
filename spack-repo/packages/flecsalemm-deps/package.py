@@ -56,7 +56,7 @@ class FlecsalemmDeps(BundlePackage):
         depends_on("flecsi-sp ~%s" % v, when="~%s" % v)
         depends_on("flecsi +%s" % v, when="+%s" % v)
         depends_on("flecsi ~%s" % v, when="~%s" % v)
-    depends_on("flecsi-sp@1.4 caliper_detail=medium", when='+caliper')
+    depends_on("flecsi-sp@1.4 +caliper", when='+caliper')
     depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
 
     depends_on('pkgconfig', type='build')
