@@ -54,6 +54,8 @@ class FlecsalemmDeps(BundlePackage):
     for v in ['debug_backend', 'doxygen', 'hdf5', 'graphviz', 'tutorial', 'external_cinch']:
         depends_on("flecsi +%s" % v, when="+%s" % v)
         depends_on("flecsi ~%s" % v, when="~%s" % v)
+        depends_on("flecsi-sp +%s" % v, when="+%s" % v)
+        depends_on("flecsi-sp ~%s" % v, when="~%s" % v)
     depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
 
     depends_on('pkgconfig', type='build')
