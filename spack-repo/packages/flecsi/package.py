@@ -18,10 +18,13 @@ class Flecsi(CMakePackage, CudaPackage):
     '''
     homepage = 'http://flecsi.org/'
     git      = 'https://github.com/flecsi/flecsi.git'
+    maintainers = ['rspavel', 'ktsai7']
 
     version('develop', branch='devel', submodules=False)
     version('1', git="https://github.com/laristra/flecsi.git", branch='1', submodules=False, preferred=False)
-    version('1.4', git="https://github.com/laristra/flecsi.git",  branch='1.4', submodules=False, preferred=True)
+    version('1.4', git="https://github.com/laristra/flecsi.git",  branch='1.4', submodules=False, preferred=False)
+    version('1.4.2', git="https://github.com/laristra/flecsi.git",  tag='v1.4.2', submodules=False, preferred=True)
+    version('2.1.0', tag='v2.1.0', submodules=False, preferred=False)
     version('flecsph', git="https://github.com/laristra/flecsi.git", branch="stable/flecsph", submodules=True, preferred=False)
 
     variant('backend', default='mpi', values=('serial', 'mpi', 'legion', 'hpx', 'charmpp'),

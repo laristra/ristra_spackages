@@ -18,14 +18,15 @@ spack:
     - openmpi@3.1.4 fabrics=auto
   specs:
   - matrix:
-    - - $pkgs
-    - - $compilers
-    - - $backends
-    - - $^mpi_providers
+    - [$pkgs]
+    - [$compilers]
+    - [$backends]
+    - [$^mpi_providers]
   - matrix:
-    - - libristra+paraview
-    - - $compilers
-    - - $^mpi_providers
+    - [libristra+paraview]
+    - [$compilers]
+    - [$^mpi_providers]
+  - flecsi@2.1.0~external_cinch ^openmpi@4.1.0
   packages:
     all:
       target:
