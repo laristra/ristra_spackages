@@ -26,8 +26,6 @@ spack:
       version: []
       compiler: []
       buildable: true
-      modules: {}
       providers: {}
-      paths: {}
       target: []
   view: false

@@ -32,7 +32,5 @@ spack:
       version: []
       compiler: []
       buildable: true
-      modules: {}
       providers: {}
-      paths: {}
   view: false
