@@ -44,18 +44,19 @@ class FlecsalemmDeps(BundlePackage):
     variant('tide', default=False,
             description='Build with tide support')
 
-    depends_on("flecsi @1:1.9")
     depends_on("flecsi-sp@1.4")
+    depends_on("flecsi @1:1.9")
     for b in ['mpi', 'legion', 'hpx']:
-        depends_on("flecsi backend=%s" % b,
-            when="backend=%s" % b)
         depends_on("flecsi-sp backend=%s" % b,
             when="backend=%s" % b)
+        depends_on("flecsi backend=%s" % b,
+            when="backend=%s" % b)
     for v in ['debug_backend', 'doxygen', 'hdf5', 'graphviz', 'tutorial', 'external_cinch']:
-        depends_on("flecsi +%s" % v, when="+%s" % v)
-        depends_on("flecsi ~%s" % v, when="~%s" % v)
         depends_on("flecsi-sp +%s" % v, when="+%s" % v)
         depends_on("flecsi-sp ~%s" % v, when="~%s" % v)
+        depends_on("flecsi +%s" % v, when="+%s" % v)
+        depends_on("flecsi ~%s" % v, when="~%s" % v)
+    depends_on("flecsi-sp@1.4 caliper_detail=medium", when='+caliper')
     depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
 
     depends_on('pkgconfig', type='build')
