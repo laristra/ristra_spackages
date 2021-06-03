@@ -1,11 +1,9 @@
 spack:
   definitions:
   - pkgs:
-    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos  ^flecsi+doxygen+graphviz
-      ^flecsi-sp+doxygen+graphviz
-    - flecsi-sp+external_cinch+hdf5+caliper+doxygen+graphviz+portage ^flecsi+doxygen+graphviz
-    - flecsi+external_cinch+hdf5 caliper_detail=medium +doxygen+graphviz ^caliper@2.0.1~adiak
-      ^hdf5+hl
+    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos
+    - flecsi-sp+external_cinch+hdf5+caliper+doxygen+graphviz+portage
+    - flecsi+external_cinch+hdf5 caliper_detail=medium +doxygen+graphviz
   - compilers:
     - '%gcc@7.4.0'
     - '%gcc@8.3.0'
@@ -17,6 +15,7 @@ spack:
     - mpich@3.2.1+slurm+verbs
     - openmpi@3.1.4 fabrics=auto
   specs:
+  - flecsi@2.1.0~external_cinch ^openmpi@4.1.0
   - matrix:
     - [$pkgs]
     - [$compilers]
@@ -26,11 +25,9 @@ spack:
     - [libristra+paraview]
     - [$compilers]
     - [$^mpi_providers]
-  - flecsi@2.1.0~external_cinch ^openmpi@4.1.0
   packages:
     all:
-      target:
-      - x86_64
+      target: [x86_64]
       version: []
       compiler: []
       buildable: true
