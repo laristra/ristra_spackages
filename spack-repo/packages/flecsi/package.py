@@ -66,7 +66,7 @@ class Flecsi(CMakePackage, CudaPackage):
 
     # All Current FLecsi Releases
     for level in ('low', 'medium', 'high'):
-        depends_on('caliper', when='caliper_detail=%s' % level)
+        depends_on('caliper', when='@2.0: caliper_detail=%s' % level)
         depends_on('caliper@2.0.1~adiak', when='@:1.9 caliper_detail=%s' % level)
     depends_on('graphviz', when='+graphviz')
     depends_on('hdf5+mpi', when='+hdf5')
