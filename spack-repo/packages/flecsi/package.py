@@ -69,13 +69,13 @@ class Flecsi(CMakePackage, CudaPackage):
         depends_on('caliper', when='@2.0: caliper_detail=%s' % level)
         depends_on('caliper@2.0.1~adiak', when='@:1.9 caliper_detail=%s' % level)
     depends_on('graphviz', when='+graphviz')
-    depends_on('hdf5+mpi', when='+hdf5')
+    depends_on('hdf5+hl+mpi', when='+hdf5')
     depends_on('metis@5.1.0:')
     depends_on('parmetis@4.0.3:')
-    depends_on('boost@1.70.0: cxxstd=17 +program_options')
 
     # Flecsi@1.x
     depends_on('cmake@3.12:', when='@:1.9')
+    depends_on('boost@1.70.0: cxxstd=17 +program_options', when='@:1.9')
     # Requires cinch > 1.0 due to cinchlog installation issue
     depends_on('cinch@1.01:', type='build', when='+external_cinch @:1.9')
     depends_on('mpi', when='backend=mpi @:1.9')
@@ -87,7 +87,6 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('hpx@1.4.1 cxxstd=17 malloc=system max_cpu_count=128', when='backend=hpx@:1.9')
     depends_on('hpx build_type=Debug', when='backend=hpx +debug_backend @:1.9')
     depends_on('googletest@1.8.1+gmock', when='@:1.9')
-    depends_on('hdf5+hl', when='+hdf5 @:1.9')
     depends_on('python@3.0:', when='+tutorial @:1.9')
     depends_on('doxygen', when='+doxygen @:1.9')
     depends_on('llvm', when='+flecstan @:1.9')
