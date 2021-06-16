@@ -12,7 +12,7 @@ spack:
     - backend=legion
     - backend=hpx
   - mpi_providers:
-    - mpich@3.2.1+slurm+verbs
+    - mpich@3.2.1+slurm+verbs device=ch3
     - openmpi@3.1.4 fabrics=auto
   specs:
   - flecsi@2.1.0~external_cinch ^openmpi@4.1.0

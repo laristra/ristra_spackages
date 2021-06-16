@@ -66,8 +66,8 @@ class Flecsi(CMakePackage, CudaPackage):
 
     # All Current FLecsi Releases
     for level in ('low', 'medium', 'high'):
-        depends_on('caliper', when='@2.0: caliper_detail=%s' % level)
-        depends_on('caliper@2.0.1~adiak', when='@:1.9 caliper_detail=%s' % level)
+        depends_on('caliper~libdw', when='@2.0: caliper_detail=%s' % level)
+        depends_on('caliper@2.0.1~adiak~libdw', when='@:1.9 caliper_detail=%s' % level)
     depends_on('graphviz', when='+graphviz')
     depends_on('hdf5+hl+mpi', when='+hdf5')
     depends_on('metis@5.1.0:')
@@ -81,7 +81,7 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('mpi', when='backend=mpi @:1.9')
     depends_on('mpi', when='backend=legion @:1.9')
     depends_on('mpi', when='backend=hpx @:1.9')
-    depends_on('legion+shared+mpi', when='backend=legion @:1.9')
+    depends_on('legion+shared', when='backend=legion @:1.9')
     depends_on('legion+hdf5', when='backend=legion +hdf5 @:1.9')
     depends_on('legion build_type=Debug', when='backend=legion +debug_backend @:1.9')
     depends_on('hpx@1.4.1 cxxstd=17 malloc=system max_cpu_count=128', when='backend=hpx@:1.9')
