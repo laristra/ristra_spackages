@@ -78,6 +78,6 @@ echo "Update ${mirror}"
 mkdir -p ${mirror}
 [ ${packagename} == "ristra-deps" ] && export packagename=flecsalemm-deps;
 
-${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies ${packagename}+hdf5+caliper+trilinos%gcc backend=legion ^mpich@3.2.1+slurm
+${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies ${packagename}+hdf5+caliper+trilinos%gcc backend=legion ^mpich@3.2.1+slurm device=ch3
 ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies ${packagename}+doxygen+graphviz+portage+paraview%gcc backend=hpx ^openmpi@3.1.4
 #${SPACK_ROOT}/bin/spack mirror add --scope site ${packagename} "file://${mirror}"

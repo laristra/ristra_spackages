@@ -14,13 +14,11 @@ class FlecsiSp(CMakePackage):
 
     version('1.4', branch='1.4', submodules=False, preferred=True)
 
-    variant('build_type', default='Release', values=('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel'),
-            description='The build type to build', multi=False)
     variant('backend', default='mpi', values=('serial', 'mpi', 'legion', 'charmpp', 'hpx'),
             description='Backend to use for distributed memory', multi=False)
     variant('debug_backend', default=False,
             description='Build Backend with Debug Mode')
-    variant('cinch', default=True,
+    variant('external_cinch', default=True,
             description='Enable External Cinch')
     variant('shared', default=True,
             description='Build shared libraries')
@@ -37,29 +35,31 @@ class FlecsiSp(CMakePackage):
     variant('portage', default=False,
             description='Enable Portage Support')
 
-    for b in ['Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel']:
-        depends_on("flecsi-sp-deps@1.4 build_type=%s" % b,
-            when="build_type=%s" % b)
 
     for b in ['mpi', 'legion', 'hpx']:
-        depends_on("flecsi-sp-deps@1.4 backend=%s" % b,
-            when="backend=%s" % b)
         depends_on("flecsi@1.4 backend=%s" % b,
             when="backend=%s" % b)
-    for v in ['debug_backend', 'cinch', 'shared', 'doxygen', 'hdf5', 'caliper', 'graphviz', 'tutorial']:
-        depends_on("flecsi-sp-deps@1.4 +%s" % v, when="+%s" % v)
-        depends_on("flecsi-sp-deps@1.4 ~%s" % v, when="~%s" % v)
+    for v in ['debug_backend', 'external_cinch', 'shared', 'doxygen', 'hdf5', 'graphviz', 'tutorial']:
         depends_on("flecsi@1.4 +%s" % v, when="+%s" % v)
         depends_on("flecsi@1.4 ~%s" % v, when="~%s" % v)
+    depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
 
-    depends_on("flecsi-sp-deps@1.4 +portage", when="+portage")
-    depends_on("flecsi-sp-deps@1.4 ~portage", when="~portage")
+    depends_on('libristra')
+    depends_on('cmake@3.12:')
+    # Requires cinch > 1.0 due to cinchlog installation issue
+    depends_on('cinch@1.01:', type='build', when='+external_cinch')
+    depends_on('exodusii')
+    depends_on('hdf5+hl+mpi', when='+hdf5')
+
+    #portage requires LAPACKE
+    depends_on('netlib-lapack lapacke=true', when='+portage')
+
 
     def cmake_args(self):
         spec = self.spec
         options = []
 
-        if '+cinch' in spec:
+        if '+external_cinch' in spec:
             options.append('-DCINCH_SOURCE_DIR=' + spec['cinch'].prefix)
 
         if self.run_tests:

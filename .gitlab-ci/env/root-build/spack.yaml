@@ -9,7 +9,7 @@ spack:
     - backend=mpi
     - backend=legion
   - mpi_providers:
-    - mpich@3.2.1+slurm+verbs
+    - mpich@3.2.1+slurm+verbs device=ch3
     - openmpi@3.1.4 fabrics=auto
   specs:
   - matrix:
@@ -25,7 +25,5 @@ spack:
       version: []
       compiler: []
       buildable: true
-      modules: {}
       providers: {}
-      paths: {}
   view: false
