@@ -93,7 +93,7 @@ root-build:
     - cd ${NGC_PROJECT_MODULE_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
     - ./ristra_spackages/utils/update.sh ${SPACK_REF} ${CI_RUNNTER_SYSTEM} ${CI_SPACKAGE}
-    - . ${NGC_PROJECT_MODULE_DIR}/spack/share/spack/setup-env.sh
+    - . ${NGC_PROJECT_MODULE_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
     - spack repo list
     - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
     - spack find
