@@ -40,7 +40,7 @@ dry-run:
     - git clone git@gitlab.lanl.gov:laristra/ristra-spack-configurations.git
     - echo 'Spack Version:' ${SPACK_REF}
     - git clone ${SPACK_REPO}
-    - mv spack spack-${SPACK_REF} && cd spack-${SPACK_REF} && git checkout ${SPACK_REF} && cd ${CI_PROJECT_DIR}
+    - cd spack && git checkout ${SPACK_REF} && cd ${CI_PROJECT_DIR}
     - export SPACK_ARCH=`./spack-${SPACK_REF}/bin/spack arch`
     - echo ${SPACK_ARCH}
     - export PLATFORM="${SPACK_ARCH%%-*}"
