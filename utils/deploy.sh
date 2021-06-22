@@ -38,16 +38,19 @@ export spack_arch=${spack_arch%-*}-${target}
 
 echo 'Concretizing...'
 [ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsalemm-deps concretize -f
+[ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsi concretize -f
 [ ${modulename} == "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/${modulename} concretize -f
 [ ${modulename} == "symphony-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} concretize -f
 
 echo 'spack install -y --show-log-on-error'
 [ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsalemm-deps install -y --show-log-on-error --only dependencies
+[ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsi install -y --show-log-on-error
 [ ${modulename} == "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/${modulename} install -y --show-log-on-error
 [ ${modulename} == "symphony-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} install -y --show-log-on-error
 
 echo 'Running refresh.sh'
 [ ${modulename} == "ristra-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/flecsalemm-deps
+[ ${modulename} == "ristra-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/flecsi
 [ ${modulename} == "flecsalemm-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/${modulename}
 [ ${modulename} == "symphony-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages_pro/env/${target}/${modulename}
 

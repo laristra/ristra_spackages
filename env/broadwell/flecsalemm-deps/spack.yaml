@@ -12,7 +12,7 @@ spack:
   - mpi_providers:
     - mvapich2@2.3.4+debug fabrics=psm2 process_managers=slurm
     - mpich@3.2.1+slurm+verbs device=ch3
-    - openmpi@3.1.4 fabrics=auto
+    - openmpi@3.1.4+pmi+legacylaunchers+thread_multiple fabrics=auto
   specs:
   - matrix:
     - [$pkgs]
