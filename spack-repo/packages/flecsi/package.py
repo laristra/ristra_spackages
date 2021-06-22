@@ -64,7 +64,7 @@ class Flecsi(CMakePackage, CudaPackage):
     variant('openmp', default=False,
             description='Enable OpenMP Support')
 
-    # All Current FLecsi Releases
+    # All Current Flecsi Releases
     for level in ('low', 'medium', 'high'):
         depends_on('caliper~libdw', when='@2.0: caliper_detail=%s' % level)
         depends_on('caliper@2.0.1~adiak~libdw', when='@:1.9 caliper_detail=%s' % level)
@@ -81,7 +81,7 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('mpi', when='backend=mpi @:1.9')
     depends_on('mpi', when='backend=legion @:1.9')
     depends_on('mpi', when='backend=hpx @:1.9')
-    depends_on('legion+shared', when='backend=legion @:1.9')
+    depends_on('legion+shared conduit=mpi network=gasnet', when='backend=legion @:1.9')
     depends_on('legion+hdf5', when='backend=legion +hdf5 @:1.9')
     depends_on('legion build_type=Debug', when='backend=legion +debug_backend @:1.9')
     depends_on('hpx@1.4.1 cxxstd=17 malloc=system max_cpu_count=128', when='backend=hpx@:1.9')
@@ -97,7 +97,7 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('cmake@3.15:', when='@2.0:')
     depends_on('boost@1.70.0 +atomic +filesystem +regex +system', when='@2.0:')
     depends_on('kokkos@3.2.00:', when='+kokkos @2.0:')
-    depends_on('legion@ctrl-rep-9:ctrl-rep-99', when='backend=legion @2.0:')
+    depends_on('legion@ctrl-rep-9:ctrl-rep-99+shared conduit=mpi network=gasnet', when='backend=legion @2.0:')
     depends_on('legion+hdf5', when='backend=legion +hdf5 @2.0:')
     depends_on('hdf5@1.10.7:', when='backend=legion +hdf5 @2.0:')
     depends_on('hpx@1.3.0 cxxstd=17 malloc=system', when='backend=hpx @2.0:')
@@ -109,7 +109,7 @@ class Flecsi(CMakePackage, CudaPackage):
     # Flecsi@2: no longer supports serial or charmpp backends
     conflicts('backend=serial', when='@2.0:')
     conflicts('backend=charmpp', when='@2.0:')
-    # FLecsi@2: no longer expects to control how backend is built
+    # Flecsi@2: no longer expects to control how backend is built
     conflicts('+debug_backend', when='@2.0:')
     # Flecsi@2: No longer supports previous TPL related flags
     conflicts('+disable_metis', when='@2.0:')
