@@ -20,6 +20,8 @@ system="$2"
 packagename="$3"
 
 export SPACK_ROOT=`pwd`/${spack_version}
+
+# Set spack mirror location
 if [ ${packagename} == "ristra-deps" ];
 then
   export mirror=`pwd`/ristra_spack_mirrors/${packagename}-mirror;
@@ -30,11 +32,14 @@ else
   export mirror=`pwd`/ristra_spack_mirrors_pro/${packagename}-mirror;
 fi
 
+# Clone Spack at specified if not present
 [ ! -d "${SPACK_ROOT}" ] && { git clone https://github.com/spack/spack.git; mv spack ${spack_version}; cd ${spack_version}; git init --shared=group . ; git checkout ${spack_version##*-}; cd ..; }
 
+# Get the <platform> based on value of 'spack arch'
 spack_arch=`${SPACK_ROOT}/bin/spack arch`
 platform="${spack_arch%%-*}"
 
+# Update ristra-spack-configurations repo; Clone if not present
 echo 'Update ristra-spack-configurations'
 [ ! -d "ristra-spack-configurations" ] && git clone git@gitlab.lanl.gov:laristra/ristra-spack-configurations.git
 cd ristra-spack-configurations
@@ -42,11 +47,14 @@ git init --shared=group .
 git pull
 cd ..
 
+# Remove all old configs in spack/etc/spack and the <platform> folder
 echo "Clean up ${spack_version}/etc/spack/${platform} and ${spack_version}/etc/spack"
 mkdir -p ${spack_version}/etc/spack/${platform}
 rm -rf ${spack_version}/etc/spack/${platform}/*.yaml
 rm -rf ${spack_version}/etc/spack/*.yaml
 
+# Copy configs from ristra-spack-configurations' common folder and <system> folder
+# Also, copy configs from private/pro folder under the <system> when applicable
 echo "Copy ristra-spack-configurations/${platform}/*.yaml into ${spack_version}/etc/spack/${platform}"
 cp ristra-spack-configurations/common/*.yaml ${spack_version}/etc/spack/
 cp ristra-spack-configurations/${system}/*.yaml ${spack_version}/etc/spack/${platform}/
@@ -56,6 +64,7 @@ cp ristra-spack-configurations/${system}/*.yaml ${spack_version}/etc/spack/${pla
 # HPC mirror has cached an older version of flecsi and cinch
 ${SPACK_ROOT}/bin/spack mirror rm --scope site lanl
 
+# Update ristra_spackages (and *_pro if applicable) repo and add as spack repo; Clone if not present
 echo 'Update ristra_spackages'
 [ ! -d "ristra_spackages" ] && git clone git@gitlab.lanl.gov:laristra/ristra_spackages.git
 cd ristra_spackages
@@ -74,6 +83,7 @@ then
   ${SPACK_ROOT}/bin/spack repo add --scope site ristra_spackages_pro/spack-repo || /bin/true;
 fi
 
+# Update spack mirror tar files with two general flecsi and/or flecsalemm-deps spec against mpich/openmpi and backend=mpi/legion
 echo "Update ${mirror}"
 mkdir -p ${mirror}
 [ ${packagename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies flecsi@2.1.0~external_cinch+hdf5%gcc backend=legion ^mpich@3.4.1+slurm+verbs device=ch3;
