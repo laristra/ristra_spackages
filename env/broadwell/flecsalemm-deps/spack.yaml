@@ -8,7 +8,6 @@ spack:
     - '%gcc@8.3.0'
   - backends:
     - backend=mpi
-    - backend=legion conduit=mpi
   - mpi_providers:
     - mvapich2@2.3.4+debug fabrics=psm2 process_managers=slurm
     - mpich@3.2.1+slurm+verbs device=ch3
