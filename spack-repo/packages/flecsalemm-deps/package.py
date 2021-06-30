@@ -43,6 +43,9 @@ class FlecsalemmDeps(BundlePackage):
             description='Build with shared lua')
     variant('tide', default=False,
             description='Build with tide support')
+    variant('conduit', default='mpi',
+            values=('mpi', 'ibv', 'ucx'),
+            description='Set Legion Conduit', multi=False)
 
     depends_on("flecsi-sp@1.4")
     depends_on("flecsi @1:1.9")
@@ -51,6 +54,13 @@ class FlecsalemmDeps(BundlePackage):
             when="backend=%s" % b)
         depends_on("flecsi backend=%s" % b,
             when="backend=%s" % b)
+
+    for c in ['mpi', 'ibv', 'ucx']:
+        depends_on("flecsi-sp conduit=%s" % c,
+            when="conduit=%s" % c)
+        depends_on("flecsi conduit=%s" % c,
+            when="conduit=%s" % c)
+
     for v in ['debug_backend', 'doxygen', 'hdf5', 'graphviz', 'tutorial', 'external_cinch']:
         depends_on("flecsi-sp +%s" % v, when="+%s" % v)
         depends_on("flecsi-sp ~%s" % v, when="~%s" % v)
