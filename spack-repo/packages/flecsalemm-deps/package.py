@@ -31,9 +31,7 @@ class FlecsalemmDeps(BundlePackage):
             description='Build FleCSI Tutorials')
     variant('paraview', default=False,
             description='Build Paraview Support')
-    variant('flecstan', default=False,
-        description='Build FleCSI Static Analyzer')
-    variant('cinch', default=False,
+    variant('external_cinch', default=True,
         description='Enable External Cinch')
     variant('int64', default=False,
         description='Enable Metis/ParMetis int64 Support')
@@ -45,15 +43,31 @@ class FlecsalemmDeps(BundlePackage):
             description='Build with shared lua')
     variant('tide', default=False,
             description='Build with tide support')
+    variant('conduit', default='mpi',
+            values=('mpi', 'ibv', 'ucx'),
+            description='Set Legion Conduit', multi=False)
 
-    depends_on("flecsi-deps @1:1.9")
+    depends_on("flecsi-sp@1.4")
+    depends_on("flecsi @1:1.9")
     for b in ['mpi', 'legion', 'hpx']:
-        depends_on("flecsi-deps backend=%s" % b,
+        depends_on("flecsi-sp backend=%s" % b,
             when="backend=%s" % b)
-    for v in ['debug_backend', 'doxygen', 'hdf5', 'caliper', 'graphviz', 'tutorial', 'flecstan', 'cinch']:
-        depends_on("flecsi-deps +%s" % v, when="+%s" % v)
-        depends_on("flecsi-deps ~%s" % v, when="~%s" % v)
+        depends_on("flecsi backend=%s" % b,
+            when="backend=%s" % b)
 
+    for c in ['mpi', 'ibv', 'ucx']:
+        depends_on("flecsi-sp conduit=%s" % c,
+            when="conduit=%s" % c)
+        depends_on("flecsi conduit=%s" % c,
+            when="conduit=%s" % c)
+
+    for v in ['debug_backend', 'doxygen', 'hdf5', 'graphviz', 'tutorial', 'external_cinch']:
+        depends_on("flecsi-sp +%s" % v, when="+%s" % v)
+        depends_on("flecsi-sp ~%s" % v, when="~%s" % v)
+        depends_on("flecsi +%s" % v, when="+%s" % v)
+        depends_on("flecsi ~%s" % v, when="~%s" % v)
+    depends_on("flecsi-sp@1.4 +caliper", when='+caliper')
+    depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
 
     depends_on('pkgconfig', type='build')
     depends_on('cmake@3.12:')

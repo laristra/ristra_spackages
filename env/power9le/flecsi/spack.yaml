@@ -1,15 +1,16 @@
 spack:
   definitions:
   - pkgs:
-    - flecsalemm-deps+hdf5+caliper+doxygen+graphviz
+    - flecsi@2.1.0~external_cinch+hdf5
   - compilers:
-    - '%gcc@7.4.0'
+    - '%gcc@9.3.0'
   - backends:
     - backend=mpi
+    - backend=legion conduit=mpi
   - mpi_providers:
-    - mpich@3.2.1+slurm+verbs device=ch3
+    - mpich@3.4.1+slurm+verbs device=ch3
+    - openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
   specs:
-  - flecsi@2.1.0~external_cinch+hdf5%gcc@9.3.0 ^mpich@3.4.1+slurm+verbs device=ch3
   - matrix:
     - [$pkgs]
     - [$compilers]
@@ -17,9 +18,13 @@ spack:
     - [$^mpi_providers]
   packages:
     all:
-      target: [x86_64]
+      permissions:
+        read: world
+        write: group
+        group: ristra-admin
       version: []
       compiler: []
       buildable: true
       providers: {}
+      target: []
   view: false

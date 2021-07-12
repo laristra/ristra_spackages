@@ -29,41 +29,100 @@ then
 fi
 #source ${SPACK_ROOT}/share/spack/setup-env.sh
 
+# Get the <target> based on value of 'spack arch'
 spack_arch=`${SPACK_ROOT}/bin/spack arch`
 target="${spack_arch##*-}"
 
+# Build packages against x86_64 when it is either 'haswell' or 'skylake_avx512'
+# Both are possible Darwin frontend nodes
 [ ${target} == "haswell" ] && export target="x86_64"
 [ ${target} == "skylake_avx512" ] && export target="x86_64"
 export spack_arch=${spack_arch%-*}-${target}
 
 echo 'Concretizing...'
 [ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsalemm-deps concretize -f
+[ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsi concretize -f
 [ ${modulename} == "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/${modulename} concretize -f
 [ ${modulename} == "symphony-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} concretize -f
 
 echo 'spack install -y --show-log-on-error'
 [ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsalemm-deps install -y --show-log-on-error --only dependencies
+[ ${modulename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/flecsi install -y --show-log-on-error
 [ ${modulename} == "flecsalemm-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages/env/${target}/${modulename} install -y --show-log-on-error
 [ ${modulename} == "symphony-deps" ] && ${SPACK_ROOT}/bin/spack -e ristra_spackages_pro/env/${target}/${modulename} install -y --show-log-on-error
 
 echo 'Running refresh.sh'
 [ ${modulename} == "ristra-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/flecsalemm-deps
+[ ${modulename} == "ristra-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/flecsi
 [ ${modulename} == "flecsalemm-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages/env/${target}/${modulename}
 [ ${modulename} == "symphony-deps" ] && ./ristra_spackages/utils/refresh.sh ${version} ristra_spackages_pro/env/${target}/${modulename}
+
+# Copy flecsi, flecsi-sp and libristra to create the *-deps modules
+# Also, substitue *-deps as the replacement in other *-deps modules
+echo 'Creating *-deps modules for Ristra...'
+for d in ${SPACK_ROOT}/share/spack/modules/${spack_arch}/*;
+do
+  if [ -d $d ];
+  then
+    export folder=${d##*/};
+    if [ $folder == "flecsi" ] || [ $folder == "flecsi-sp" ] || [ $folder == "libristra" ];
+    then
+      # Remove the existing *-deps folder if any and create a new *-deps folder
+      if [ -d $d-deps ];
+      then
+        rm -rf $d-deps;
+      fi
+      cp -R $d "$d-deps";
+
+      # Substitue with *-deps
+      # Comment out prepend-path when applicable
+      for file in $d-deps/*;
+      do
+        if [ -f $file ];
+        then
+          sed -i "s/flecsi\//flecsi-deps\//" $file;
+          sed -i "s/flecsi-sp\//flecsi-sp-deps\//" $file;
+          sed -i "s/libristra\//libristra-deps\//" $file;
+          sed -i "s/conflict $folder/conflict $folder-deps/" $file;
+          sed -i "s/prepend-path/#prepend-path/" $file;
+        else
+          echo "Not a file: $f";
+        fi
+      done
+    elif [ $folder == "flecsalemm-deps" ];
+    then
+      for file in $d/*;
+      do
+        if [ -f $file ];
+        then
+          echo $file
+          sed -i "s/flecsi\//flecsi-deps\//" $file;
+          sed -i "s/flecsi-sp\//flecsi-sp-deps\//" $file;
+          sed -i "s/libristra\//libristra-deps\//" $file;
+        else
+          echo "Not a file: $f";
+        fi
+      done
+    fi
+  else
+    echo "Not a directory: $d";
+    echo "Check your modules.yaml";
+  fi
+done
 
 #echo 'Symlink modulefiles'
 #mkdir -p ${modulefiles} && cd ${modulefiles} && mkdir -p ${spack_arch} && cd ${spack_arch}
 #[ ! -f "${modulename}" ] && ln -s ${SPACK_ROOT}/share/spack/modules/${spack_arch}/${modulename}
 
+# Create the top-level module that adds to user's MODULEPATH when loaded
 mkdir -p ${modulefiles}
 cd ${modulefiles}
 [ ${modulename} == "ristra-deps" ] && export topmodulename="${spack_arch}-${version}-public"
 [ ${modulename} == "flecsalemm-deps" ] && export topmodulename="${spack_arch}-${version}"
 [ ${modulename} == "symphony-deps" ] && export topmodulename="${spack_arch}-${version}-pro"
+
 if [ ! -f "${topmodulename}" ];
 then
-#for f in ${modulename}/*;
-#do
   [ -f "${SPACK_ROOT}/etc/spack/linux/upstreams.yaml" ] && { export spack_modules=`awk '/tcl/{print $NF}' ${SPACK_ROOT}/etc/spack/linux/upstreams.yaml`; export spack_modules_array=($spack_modules); }
 
   echo 'Create top-level modulefile';
@@ -99,5 +158,5 @@ then
 
   # And add Module shebang(?)
   sed -i "1s;^;#%Module\n\n;" ${topmodulename};
-#done
 fi
+

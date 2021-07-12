@@ -8,7 +8,7 @@ variables:
   CI_RUNNTER_SYSTEM: "Darwin"
   CI_SPACKAGE: "flecsalemm-deps"
   SPACK_REPO: "https://github.com/spack/spack.git"
-  SPACK_REF: "v0.15.4"
+  SPACK_REF: "v0.16.2-26c6456"
   NGC_PROJECT_MODULE_DIR: "/projects/ngc/public/ristra_module_gen"
 
 before_script:
@@ -34,21 +34,21 @@ dry-run:
     when: always
     expire_in: 1 hour
     paths:
-      - ${CI_PROJECT_DIR}/spack-${SPACK_REF} #/builds/next-generation-codes/laristra/flecsale-mm/spack-${SPACK_REF}
+      - ${CI_PROJECT_DIR}/spack #/builds/next-generation-codes/laristra/flecsale-mm/spack
   script:
     - cd ${CI_PROJECT_DIR}
     - git clone git@gitlab.lanl.gov:laristra/ristra-spack-configurations.git
     - echo 'Spack Version:' ${SPACK_REF}
     - git clone ${SPACK_REPO}
-    - mv spack spack-${SPACK_REF} && cd spack-${SPACK_REF} && git checkout ${SPACK_REF} && cd ${CI_PROJECT_DIR}
-    - export SPACK_ARCH=`./spack-${SPACK_REF}/bin/spack arch`
+    - cd spack && git checkout ${SPACK_REF} && cd ${CI_PROJECT_DIR}
+    - export SPACK_ARCH=`./spack/bin/spack arch`
     - echo ${SPACK_ARCH}
     - export PLATFORM="${SPACK_ARCH%%-*}"
     - echo ${PLATFORM}
-    - mkdir -p ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}
-    - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/${PLATFORM}/
-    - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/common/*.yaml ${CI_PROJECT_DIR}/spack-${SPACK_REF}/etc/spack/
-    - . ${CI_PROJECT_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
+    - mkdir -p ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}
+    - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/*.yaml ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}/
+    - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/common/*.yaml ${CI_PROJECT_DIR}/spack/etc/spack/
+    - . ${CI_PROJECT_DIR}/spack/share/spack/setup-env.sh
     - spack repo add --scope site ${CI_PROJECT_DIR}/spack-repo
     - spack repo list
     - spack env activate -d ${CI_PROJECT_DIR}/.gitlab-ci/env/${SPACK_ENV_DIR}
@@ -69,7 +69,7 @@ local-build:
   script:
     - cd ${CI_PROJECT_DIR}
     - echo 'Spack Version:' ${SPACK_REF}
-    - . ${CI_PROJECT_DIR}/spack-${SPACK_REF}/share/spack/setup-env.sh
+    - . ${CI_PROJECT_DIR}/spack/share/spack/setup-env.sh
     - spack reindex
     - spack module tcl refresh -y
     - spack repo list
