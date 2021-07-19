@@ -34,11 +34,17 @@ class FlecsiSp(CMakePackage):
             description='Build FleCSI Tutorials')
     variant('portage', default=False,
             description='Enable Portage Support')
+    variant('conduit', default='mpi',
+            values=('mpi', 'ibv', 'ucx'),
+            description='Set Legion Conduit', multi=False)
 
 
     for b in ['mpi', 'legion', 'hpx']:
         depends_on("flecsi@1.4 backend=%s" % b,
             when="backend=%s" % b)
+    for c in ['mpi', 'ibv', 'ucx']:
+        depends_on("flecsi@1.4 conduit=%s" % c,
+            when="conduit=%s" % c)
     for v in ['debug_backend', 'external_cinch', 'shared', 'doxygen', 'hdf5', 'graphviz', 'tutorial']:
         depends_on("flecsi@1.4 +%s" % v, when="+%s" % v)
         depends_on("flecsi@1.4 ~%s" % v, when="~%s" % v)

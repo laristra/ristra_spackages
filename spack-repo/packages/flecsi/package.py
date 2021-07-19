@@ -64,17 +64,17 @@ class Flecsi(CMakePackage, CudaPackage):
     variant('openmp', default=False,
             description='Enable OpenMP Support')
 
-    # All Current Flecsi Releases
+    # All Current FLecsi Releases
     for level in ('low', 'medium', 'high'):
-        depends_on('caliper~libdw', when='caliper_detail=%s' % level)
+        depends_on('caliper', when='caliper_detail=%s' % level)
         depends_on('caliper@2.0.1~adiak', when='@:1.9 caliper_detail=%s' % level)
     depends_on('graphviz', when='+graphviz')
     depends_on('hdf5+hl+mpi', when='+hdf5')
     depends_on('metis@5.1.0:')
     depends_on('parmetis@4.0.3:')
     depends_on('boost@1.70.0: cxxstd=17 +program_options')
-    depends_on('legion network=gasnet +shared', when='backend=legion')
     depends_on('openmpi+legacylaunchers', when='+unit_tests ^openmpi')
+    depends_on('legion network=gasnet', when='backend=legion')
 
     # Flecsi@1.x
     depends_on('cmake@3.12:', when='@:1.9')
@@ -83,8 +83,10 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('mpi', when='backend=mpi @:1.9')
     depends_on('mpi', when='backend=legion @:1.9')
     depends_on('mpi', when='backend=hpx @:1.9')
+    depends_on('legion+shared', when='backend=legion @:1.9')
     depends_on('legion+hdf5', when='backend=legion +hdf5 @:1.9')
     depends_on('legion build_type=Debug', when='backend=legion +debug_backend @:1.9')
+    depends_on('legion@ctrl-rep-7', when='backend=legion @:1.9') 
     depends_on('hpx@1.4.1 cxxstd=17 malloc=system max_cpu_count=128', when='backend=hpx @:1.9')
     depends_on('hpx build_type=Debug', when='backend=hpx +debug_backend @:1.9')
     depends_on('googletest@1.8.1+gmock', when='@:1.9')
@@ -103,14 +105,14 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('hdf5@1.10.7:', when='backend=legion +hdf5 @2.0:')
     depends_on('hpx@1.3.0 cxxstd=17 malloc=system', when='backend=hpx @2.0:')
     depends_on('kokkos@3.2.00:', when='+kokkos @2.0:')
-    depends_on('mpich@3.4.1', when='@2.0: ^mpich')
-    depends_on('openmpi@4.1.0', when='@2.0: ^openmpi')
+    depends_on('mpich@3.4.1:', when='@2.0: ^mpich')
+    depends_on('openmpi@4.1.0:', when='@2.0: ^openmpi')
 
     conflicts('+tutorial', when='backend=hpx')
     # Flecsi@2: no longer supports serial or charmpp backends
     conflicts('backend=serial', when='@2.0:')
     conflicts('backend=charmpp', when='@2.0:')
-    # Flecsi@2: no longer expects to control how backend is built
+    # FLecsi@2: no longer expects to control how backend is built
     conflicts('+debug_backend', when='@2.0:')
     # Flecsi@2: No longer supports previous TPL related flags
     conflicts('+disable_metis', when='@2.0:')

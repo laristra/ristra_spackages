@@ -27,13 +27,17 @@ then
 fi
 #source ${SPACK_ROOT}/share/spack/setup-env.sh
 
+# Get the <target> based on value of 'spack arch'
 spack_arch=`${SPACK_ROOT}/bin/spack arch`
 target="${spack_arch##*-}"
 
+# Build packages against x86_64 when it is either 'haswell' or 'skylake_avx512'
+# Both are possible Darwin frontend nodes
 [ ${target} == "haswell" ] && export target="x86_64"
 [ ${target} == "skylake_avx512" ] && export target="x86_64"
 export spack_arch=${spack_arch%-*}-${target}
 
+# Refresh spack generated modules
 echo 'spack module tcl refresh -y'
 ${SPACK_ROOT}/bin/spack -e ${spackenvname} module tcl refresh -y
 
@@ -43,6 +47,8 @@ ${SPACK_ROOT}/bin/spack -e ${spackenvname} module tcl refresh -y
 #  sed -i '/^[^#]/ s/\(^.*prepend-path --delim ";".*$\)/#\ \1/' $l;
 #done
 
+# Add 'module load gcc/<version>' in the spack enerated modules
+# Spack does not recognize compilers as normal package and thus cannot add compilers automatically
 echo 'Add load gcc'
 for d in ${SPACK_ROOT}/share/spack/modules/${spack_arch}/*;
 do
