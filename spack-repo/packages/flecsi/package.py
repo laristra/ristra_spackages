@@ -98,7 +98,7 @@ class Flecsi(CMakePackage, CudaPackage):
 
     # Flecsi@2.x
     depends_on('cmake@3.15:', when='@2.0:')
-    depends_on('boost@1.70.0 +atomic +filesystem +regex +system', when='@2.0:')
+    depends_on('boost +atomic +filesystem +regex +system', when='@2.0:')
     depends_on('kokkos@3.2.00:', when='+kokkos @2.0:')
     depends_on('legion@ctrl-rep-9:ctrl-rep-99', when='backend=legion @2.0:')
     depends_on('legion+hdf5', when='backend=legion +hdf5 @2.0:')
