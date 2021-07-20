@@ -87,7 +87,7 @@ fi
 echo "Update ${mirror}"
 mkdir -p ${mirror}
 [ ${packagename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies flecsi@2.1.0~external_cinch+hdf5%gcc backend=legion ^legion conduit=mpi ^mpich@3.4.1+slurm+verbs device=ch3;
-[ ${packagename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies flecsi@2.1.0~external_cinch+hdf5%gcc backend=legion ^legion conduit=ibv ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto;
+[ ${packagename} == "ristra-deps" ] && ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies flecsi@2.1.0~external_cinch+hdf5%gcc backend=legion ^legion conduit=ibv ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto ^hwloc@:1.999;
 [ ${packagename} == "ristra-deps" ] && export packagename=flecsalemm-deps;
 
 ${SPACK_ROOT}/bin/spack mirror create -d ${mirror} --dependencies ${packagename}+hdf5+caliper%gcc backend=legion ^legion conduit=mpi ^mpich@3.2.1+slurm+verbs device=ch3
