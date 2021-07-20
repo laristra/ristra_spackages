@@ -6,7 +6,7 @@ spack:
     - '%gcc@9.3.0'
   - backends:
     - backend=mpi
-    - backend=legion conduit=mpi
+    - backend=legion ^legion conduit=mpi
   - mpi_providers:
     - mpich@3.4.1+slurm+verbs device=ch3
     - openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
