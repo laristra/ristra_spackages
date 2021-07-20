@@ -3,13 +3,12 @@ spack:
   - pkgs:
     - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos
     - flecsi-sp+external_cinch+hdf5+caliper+doxygen+graphviz+portage
-    - flecsi+external_cinch+hdf5 caliper_detail=medium +doxygen+graphviz
+    - flecsi@1.4.2+external_cinch+hdf5 caliper_detail=medium +doxygen+graphviz
   - compilers:
     - '%gcc@7.4.0'
     - '%gcc@8.3.0'
   - backends:
     - backend=mpi
-    - backend=legion ^legion conduit=mpi
     - backend=hpx
   - mpi_providers:
     - mpich@3.2.1+slurm+verbs device=ch3
