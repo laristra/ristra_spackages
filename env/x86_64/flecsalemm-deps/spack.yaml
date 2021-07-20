@@ -10,7 +10,7 @@ spack:
     - backend=mpi
   - mpi_providers:
     - mpich@3.2.1+slurm+verbs device=ch3
-    - openmpi@3.1.4+pmi+legacylaunchers+thread_multiple fabrics=auto ^hwloc@:1.999
+    - openmpi@3.1.4+pmi+legacylaunchers+thread_multiple fabrics=auto ^hwloc@1.11.13
   specs:
   - matrix:
     - [$pkgs]

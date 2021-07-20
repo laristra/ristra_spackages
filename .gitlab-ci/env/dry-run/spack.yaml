@@ -12,7 +12,7 @@ spack:
     - backend=hpx
   - mpi_providers:
     - mpich@3.2.1+slurm+verbs device=ch3
-    - openmpi@3.1.4+pmi+legacylaunchers+thread_multiple fabrics=auto ^hwloc@:1.999
+    - openmpi@3.1.4+pmi+legacylaunchers+thread_multiple fabrics=auto ^hwloc@1.11.13
   specs:
   - flecsi@2.1.0~external_cinch+hdf5%gcc@9.3.0 ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple
     fabrics=auto
