@@ -64,8 +64,8 @@ else
   spack_config_version_folder="latest";
 fi
 cp ristra-spack-configurations/${system}/${spack_config_version_folder}/*.yaml ${spack_version}/etc/spack/${platform}/
-[ ${packagename} == "flecsalemm-deps" ] && cp ristra-spack-configurations/${system}/${spack_config_version_folder}/private/*.yaml ${spack_version}/etc/spack/${platform}/
-[ ${packagename} == "symphony-deps" ] && cp ristra-spack-configurations/${system}/${spack_config_version_folder}/pro/*.yaml ${spack_version}/etc/spack/${platform}/
+[ ${packagename} == "flecsalemm-deps" ] && cp ristra-spack-configurations/${system}/${spack_config_version_folder}/public/*.yaml ${spack_version}/etc/spack/${platform}/
+[ ${packagename} == "symphony-deps" ] && cp ristra-spack-configurations/${system}/${spack_config_version_folder}/private/*.yaml ${spack_version}/etc/spack/${platform}/
 
 # Checks if the spack in upstreams.yaml exists
 # Remove the upstreams.yaml if not
