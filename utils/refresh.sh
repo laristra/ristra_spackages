@@ -3,9 +3,9 @@
 display_usage() {
         echo "This script assumes update.sh has been run for setup"
         echo "Needs 2 arguments:"
-        echo "- The Spack version (e.g. v0.14.2, v0.15.3, etc.)"
+        echo "- The Spack version (e.g. v0.15.3, v0.16.2, etc.)"
         echo "- The Path relative to the current folder that contains spack.yaml (e.g. ristra_spackages/env/x86_64/flecsalemm-deps)"
-        echo "Example: ./refresh.sh v0.15.3 ristra_spackages/env/x86_64/flecsalemm-deps" 
+        echo "Example: ./refresh.sh v0.15.4 ristra_spackages/env/x86_64/flecsalemm-deps" 
 }
 
 if [ $# -lt 2 ]

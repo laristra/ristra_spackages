@@ -3,10 +3,10 @@
 display_usage() {
         echo "This script assumes update.sh has been run for setup"
         echo "Needs 3 arguments:"
-        echo "- The Spack version (e.g. v0.14.2, v0.15.3, etc.)"
-        echo "- The Path where symlink module should be made (e.g. /usr/projects/ngc/private/modulefiles)"
+        echo "- The Spack version (e.g. v0.15.3, v0.16.2, etc.)"
+        echo "- The Path where symlink module should be made (e.g. /usr/projects/ngc/public/modulefiles)"
         echo "- The module name (e.g. flecsalemm-deps)"
-        echo "Example: ./deploy.sh v0.15.3 /usr/projects/ngc/private/modulefiles flecsalemm-deps" 
+        echo "Example: ./deploy.sh v0.15.4 /usr/projects/ngc/public/modulefiles flecsalemm-deps" 
 }
 
 if [ $# -lt 3 ]
@@ -32,6 +32,7 @@ fi
 # Get the <target> based on value of 'spack arch'
 spack_arch=`${SPACK_ROOT}/bin/spack arch`
 target="${spack_arch##*-}"
+platform="${spack_arch%%-*}"
 
 # Build packages against x86_64 when it is either 'haswell' or 'skylake_avx512'
 # Both are possible Darwin frontend nodes
@@ -123,7 +124,7 @@ cd ${modulefiles}
 
 if [ ! -f "${topmodulename}" ];
 then
-  [ -f "${SPACK_ROOT}/etc/spack/linux/upstreams.yaml" ] && { export spack_modules=`awk '/tcl/{print $NF}' ${SPACK_ROOT}/etc/spack/linux/upstreams.yaml`; export spack_modules_array=($spack_modules); }
+  [ -f "${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml" ] && { export spack_modules=`awk '/tcl/{print $NF}' ${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml`; export spack_modules_array=($spack_modules); }
 
   echo 'Create top-level modulefile';
   echo "# This is auto-generated from script." >>  ${topmodulename};
@@ -131,7 +132,7 @@ then
   # And clean up the module path to not overwhelm users with spack
   #echo "if { [ module-info mode remove ] } { module unuse ${SPACK_ROOT}/share/spack/modules/${spack_arch} }" >> ${topmodulename};
   sed -i "1s;^;module use \$module_dir\n;" ${topmodulename};
-  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/linux/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;module use \$${i}_module_dir\n;" ${topmodulename}; done }
+  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;module use \$${i}_module_dir\n;" ${topmodulename}; done }
   sed -i "1s;^;# module use\n;" ${topmodulename};
 
   # And add module help
@@ -139,7 +140,7 @@ then
   sed -i "1s;^;  puts stderr \"After loading - perform a module avail to present additional modules.\\\\n\"\n;" ${topmodulename};
   sed -i "1s;^;  puts stderr \"is added to the list of directories that the module command will search.\\\\n\"\n;" ${topmodulename};
   sed -i "1s;^;  puts stderr \"\\t\$module_dir \\\\n\"\n;" ${topmodulename};
-  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/linux/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;  puts stderr \"\\t\$${i}_module_dir \\\\n\"\n;" ${topmodulename}; done }
+  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;  puts stderr \"\\t\$${i}_module_dir \\\\n\"\n;" ${topmodulename}; done }
   sed -i "1s;^;  puts stderr \"This category contains modules for $spack_arch on this cluster.\\\\n\"\n;" ${topmodulename};
   sed -i "1s;^;global user_moddir\n;" ${topmodulename};
   sed -i "1s;^;proc ModulesHelp { } {\n;" ${topmodulename};
@@ -148,13 +149,13 @@ then
   # And add module whatis
   sed -i "1s;^;module-whatis   \"Loading this module will allow other modules for this category to be presented.\"\n\n;" ${topmodulename};
   sed -i "1s;^;module-whatis   \"\$module_dir. Add this directory to MODULEPATH.\"\n;" ${topmodulename};
-  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/linux/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;module-whatis   \"\$${i}_module_dir. Add this directory to MODULEPATH.\"\n;" ${topmodulename}; done }
+  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;module-whatis   \"\$${i}_module_dir. Add this directory to MODULEPATH.\"\n;" ${topmodulename}; done }
   sed -i "1s;^;module-whatis   \"Modules for $spack_arch are maintained in\"\n;" ${topmodulename};
   sed -i "1s;^;# module whatis\n;" ${topmodulename};
 
   # And add module path var
   sed -i "1s;^;set module_dir ${SPACK_ROOT}/share/spack/modules/${spack_arch}\n\n;" ${topmodulename};
-  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/linux/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;set ${i}_module_dir ${spack_modules_array[i]}/${spack_arch}\n;" ${topmodulename}; done }
+  [ ${modulename} != "ristra-deps" ] && [ -f "${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml" ] && { for i in "${!spack_modules_array[@]}"; do sed -i "1s;^;set ${i}_module_dir ${spack_modules_array[i]}/${spack_arch}\n;" ${topmodulename}; done }
 
   # And add Module shebang(?)
   sed -i "1s;^;#%Module\n\n;" ${topmodulename};
