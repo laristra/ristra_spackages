@@ -61,6 +61,7 @@ if [ -d ristra-spack-configurations/${system}/${spack_version%.*} ];
 then
   spack_config_version_folder="${spack_version%.*}";
 else
+  echo "WARNING: Specified version cannot be found; Defaulting to the latest for deployment purpose";
   spack_config_version_folder="latest";
 fi
 cp ristra-spack-configurations/${system}/${spack_config_version_folder}/*.yaml ${spack_version}/etc/spack/${platform}/
