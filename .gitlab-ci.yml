@@ -53,6 +53,8 @@ dry-run:
       then
         cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/${SPACK_REF%.*}/*.yaml ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}/;
       fi
+    # HPC mirror has cached an older version of flecsi and cinch
+    - ${CI_PROJECT_DIR}/spack/bin/spack mirror rm --scope site lanl
     - . ${CI_PROJECT_DIR}/spack/share/spack/setup-env.sh
     - spack repo add --scope site ${CI_PROJECT_DIR}/spack-repo
     - spack repo list
