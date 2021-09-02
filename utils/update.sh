@@ -51,9 +51,9 @@ rm -rf ${spack_version}/etc/spack/*.yaml
 # Also, copy configs from private/pro folder under the <system>/<spack_config_version_folder> when applicable
 echo "Copy ristra-spack-configurations/${platform}/*.yaml into ${spack_version}/etc/spack/${platform}"
 cp ristra-spack-configurations/common/*.yaml ${spack_version}/etc/spack/
-if [ -d ristra-spack-configurations/${system}/${spack_version%.*} ];
+if [ -d ristra-spack-configurations/${system}/${1%.*} ];
 then
-  spack_config_version_folder="${spack_version%.*}";
+  spack_config_version_folder="${1%.*}";
 else
   echo "WARNING: Specified version cannot be found; Defaulting to the latest for deployment purpose";
   spack_config_version_folder="latest";
