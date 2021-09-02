@@ -53,13 +53,6 @@ dry-run:
       then
         cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/${SPACK_REF%.*}/*.yaml ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}/;
       fi
-    - |
-      if [[ -f ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}/upstreams.yaml ]];
-      then
-        export SPACK_MODULES=`awk '/tcl/{print $NF}' ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}/upstreams.yaml`;
-        export SPACK_MODULES_ARRAY=($spack_modules);
-        for s in "${!SPACK_MODULES_ARRAY[@]}"; do [ ! -d ${SPACK_MODULES_ARRAY[s]} ] && { rm ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}/upstreams.yaml; break; }; done
-      fi
     - . ${CI_PROJECT_DIR}/spack/share/spack/setup-env.sh
     - spack repo add --scope site ${CI_PROJECT_DIR}/spack-repo
     - spack repo list
