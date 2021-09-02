@@ -3,10 +3,10 @@
 display_usage() { 
 	echo "This script will update spack, ristra-spack-configurations, ristra_spackages and flecsalemm-deps mirror or clone/create them if any of them doesn't already exist in the executing folder"
         echo "Needs 3 arguments:"
-	echo "- The Spack version (e.g. v0.14.2, v0.15.3, etc.)"
+	echo "- The Spack version (e.g. v0.15.3, v0.16.2, etc.)"
 	echo "- The System (e.g. Darwin, Snow, Trinitite, etc.)"
         echo "- The Spackage name for creating mirror (e.g. flecsalemm-deps)"
-	echo "Example: ./update.sh v0.15.3 Darwin flecsalemm-deps" 
+	echo "Example: ./update.sh v0.15.4 Darwin flecsalemm-deps" 
 } 
 
 if [ $# -lt 3 ] 
@@ -53,13 +53,29 @@ mkdir -p ${spack_version}/etc/spack/${platform}
 rm -rf ${spack_version}/etc/spack/${platform}/*.yaml
 rm -rf ${spack_version}/etc/spack/*.yaml
 
-# Copy configs from ristra-spack-configurations' common folder and <system> folder
-# Also, copy configs from private/pro folder under the <system> when applicable
+# Copy configs from ristra-spack-configurations' common folder and <system> folder within the <spack_config_version_folder>
+# Also, copy configs from private/pro folder under the <system>/<spack_config_version_folder> when applicable
 echo "Copy ristra-spack-configurations/${platform}/*.yaml into ${spack_version}/etc/spack/${platform}"
 cp ristra-spack-configurations/common/*.yaml ${spack_version}/etc/spack/
-cp ristra-spack-configurations/${system}/*.yaml ${spack_version}/etc/spack/${platform}/
-[ ${packagename} == "flecsalemm-deps" ] && cp ristra-spack-configurations/${system}/private/*.yaml ${spack_version}/etc/spack/${platform}/
-[ ${packagename} == "symphony-deps" ] && cp ristra-spack-configurations/${system}/pro/*.yaml ${spack_version}/etc/spack/${platform}/
+if [ -d ristra-spack-configurations/${system}/${spack_version%.*} ];
+then
+  spack_config_version_folder="${spack_version%.*}";
+else
+  echo "WARNING: Specified version cannot be found; Defaulting to the latest for deployment purpose";
+  spack_config_version_folder="latest";
+fi
+cp ristra-spack-configurations/${system}/${spack_config_version_folder}/*.yaml ${spack_version}/etc/spack/${platform}/
+[ ${packagename} == "flecsalemm-deps" ] && cp ristra-spack-configurations/${system}/${spack_config_version_folder}/public/*.yaml ${spack_version}/etc/spack/${platform}/
+[ ${packagename} == "symphony-deps" ] && cp ristra-spack-configurations/${system}/${spack_config_version_folder}/private/*.yaml ${spack_version}/etc/spack/${platform}/
+
+# Checks if the spack in upstreams.yaml exists
+# Remove the upstreams.yaml if not
+if [ -f "${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml" ];
+then
+  export spack_modules=`awk '/tcl/{print $NF}' ${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml`;
+  export spack_modules_array=($spack_modules);
+  for s in "${!spack_modules_array[@]}"; do [ ! -d ${spack_modules_array[s]} ] && { rm ${SPACK_ROOT}/etc/spack/${platform}/upstreams.yaml; break; }; done
+fi
 
 # HPC mirror has cached an older version of flecsi and cinch
 ${SPACK_ROOT}/bin/spack mirror rm --scope site lanl
