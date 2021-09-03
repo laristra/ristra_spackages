@@ -49,8 +49,10 @@ rm -rf ${spack_version}/etc/spack/*.yaml
 
 # Copy configs from ristra-spack-configurations' common folder and <system> folder within the <spack_config_version_folder>
 # Also, copy configs from private/pro folder under the <system>/<spack_config_version_folder> when applicable
-echo "Copy ristra-spack-configurations/${platform}/*.yaml into ${spack_version}/etc/spack/${platform}"
+echo "Copy ristra-spack-configurations/common/*.yaml into ${spack_version}/etc/spack/"
 cp ristra-spack-configurations/common/*.yaml ${spack_version}/etc/spack/
+
+echo "Copy ristra-spack-configurations/${system}/${1%.*}/*.yaml into ${spack_version}/etc/spack/${platform}"
 if [ -d ristra-spack-configurations/${system}/${1%.*} ];
 then
   spack_config_version_folder="${1%.*}";
