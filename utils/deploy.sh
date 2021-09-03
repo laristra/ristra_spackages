@@ -90,13 +90,12 @@ do
           echo "Not a file: $f";
         fi
       done
-    elif [ $folder == "flecsalemm-deps" ];
+    elif [ $folder == "flecsalemm-deps" ] || [ $folder == "symphony-deps" ];
     then
       for file in $d/*;
       do
         if [ -f $file ];
         then
-          echo $file
           sed -i "s/flecsi\//flecsi-deps\//" $file;
           sed -i "s/flecsi-sp\//flecsi-sp-deps\//" $file;
           sed -i "s/libristra\//libristra-deps\//" $file;
