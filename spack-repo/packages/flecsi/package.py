@@ -74,7 +74,7 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('parmetis@4.0.3:')
     depends_on('boost@1.70.0: cxxstd=17 +program_options')
     depends_on('openmpi+legacylaunchers', when='+unit_tests ^openmpi')
-    depends_on('legion network=gasnet', when='backend=legion')
+    depends_on('legion+shared network=gasnet', when='backend=legion')
 
     # FleCSI@1.x
     depends_on('cmake@3.12:', when='@:1.9')
@@ -83,7 +83,6 @@ class Flecsi(CMakePackage, CudaPackage):
     depends_on('mpi', when='backend=mpi @:1.9')
     depends_on('mpi', when='backend=legion @:1.9')
     depends_on('mpi', when='backend=hpx @:1.9')
-    depends_on('legion+shared', when='backend=legion @:1.9')
     depends_on('legion+hdf5', when='backend=legion +hdf5 @:1.9')
     depends_on('legion build_type=Debug', when='backend=legion +debug_backend @:1.9')
     depends_on('legion@ctrl-rep-7', when='backend=legion @:1.9')
