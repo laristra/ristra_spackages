@@ -50,6 +50,13 @@ rm -rf ${spack_version}/etc/spack/*.yaml
 echo "Copy ristra-spack-configurations/common/*.yaml into ${spack_version}/etc/spack/"
 cp ristra-spack-configurations/common/*.yaml ${spack_version}/etc/spack/
 
+echo "packages:" >> ${spack_version}/etc/spack/packages.yaml
+echo "  all:" >> ${spack_version}/etc/spack/packages.yaml
+echo "    permissions:" >> ${spack_version}/etc/spack/packages.yaml
+echo "      read: world" >> ${spack_version}/etc/spack/packages.yaml
+echo "      write: group" >> ${spack_version}/etc/spack/packages.yaml
+echo "      group: ristra-admin" >> ${spack_version}/etc/spack/packages.yaml
+
 echo "Copy ristra-spack-configurations/${system}/${1%.*}/*.yaml into ${spack_version}/etc/spack/${platform}"
 if [ -d ristra-spack-configurations/${system}/${1%.*} ];
 then
