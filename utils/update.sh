@@ -22,7 +22,7 @@ packagename="$3"
 export SPACK_ROOT=`pwd`/${spack_version}
 
 # Set spack mirror location
-export mirror=`pwd`/ristra_spack_mirrors/;
+export mirror=`pwd`/ristra_deps_mirror/;
 
 # Clone Spack at specified if not present
 [ ! -d "${SPACK_ROOT}" ] && { git clone https://github.com/spack/spack.git; mv spack ${spack_version}; cd ${spack_version}; git init --shared=group . ; git checkout ${spack_version##*-}; cd ..; }
