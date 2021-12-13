@@ -128,9 +128,9 @@ class Flecsi(CMakePackage, CudaPackage):
     # FleCSI@2: integrates cinch and no longer depends on external installs
     conflicts('+external_cinch', when='@2.0:')
     # Current FleCSI@:1.9 releases do not support kokkos, omp, or cuda
-    conflicts('+kokkos', when='@:1.9')
-    conflicts('+openmp', when='@:1.9')
-    conflicts('+cuda', when='@:1.9')
+    conflicts('+kokkos', when='@:1.4')
+    conflicts('+openmp', when='@:1.4')
+    conflicts('+cuda', when='@:1.4')
     # Unit tests require flog support
     conflicts('+unit_tests', when='~flog')
     # Disallow conduit=none when using legion as a backend
