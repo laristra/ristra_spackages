@@ -5,7 +5,7 @@ spack:
   - compilers:
     - '%gcc@9.3.0'
   - backends:
-    - backend=mpi
+    - backend=mpi caliper_detail=low
     - backend=legion ^legion conduit=mpi
   - mpi_providers:
     - mpich@3.4.1+slurm+verbs device=ch3
