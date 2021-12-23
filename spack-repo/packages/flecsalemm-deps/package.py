@@ -58,7 +58,7 @@ class FlecsalemmDeps(BundlePackage):
         depends_on("flecsi +%s" % v, when="+%s" % v)
         depends_on("flecsi ~%s" % v, when="~%s" % v)
     depends_on("flecsi-sp@1.4 +caliper", when='+caliper')
-    depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
+    depends_on("flecsi@1.4 caliper_detail=low", when='+caliper')
 
     depends_on('pkgconfig', type='build')
     depends_on('cmake@3.12:')
@@ -68,7 +68,8 @@ class FlecsalemmDeps(BundlePackage):
     depends_on('parmetis@4.0.3:')
     depends_on('metis+int64@5.1.0:', when='+int64')
     depends_on('parmetis+int64@4.0.3:', when='+int64')
-    depends_on('trilinos@12.12.1:12.14.1~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext~exodus+explicit_template_instantiation~float+fortran+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2~gtest', when='+trilinos')
+    #depends_on('trilinos@12.12.1:12.14.1~alloptpkgs+amesos~amesos2+anasazi+aztec+belos+boost~cgns~complex~dtk+epetra+epetraext~exodus+explicit_template_instantiation~float+fortran+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos+metis~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~pnetcdf~python~rol~rythmos+sacado~shards~stk+suite-sparse~superlu~superlu-dist~teko~tempus+teuchos~tpetra~x11~xsdkflags~zlib+zoltan~zoltan2~gtest', when='+trilinos')
+    depends_on('trilinos@12.12.1:12.14.1+amesos~amesos2+anasazi+aztec+belos+boost~complex~dtk+epetra+epetraext~exodus+explicit_template_instantiation~float+fortran+hdf5+hypre+ifpack~ifpack2~intrepid~intrepid2~isorropia~kokkos~minitensor+ml+muelu+mumps+nox~openmp~phalanx~piro~python~rol~rythmos+sacado~shards~stk+suite-sparse~superlu~superlu-dist~teko~tempus~tpetra~x11+zoltan~zoltan2~gtest', when='+trilinos')
     depends_on('gotcha')
     depends_on('eospac@6.4.0:')
     depends_on('exodusii')
