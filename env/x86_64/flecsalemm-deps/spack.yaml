@@ -5,7 +5,7 @@ spack:
     - flecsalemm-deps+hdf5+caliper+doxygen+graphviz+trilinos+portage+paraview
   - compilers:
     - '%gcc@7.4.0'
-    - '%gcc@8.3.0'
+    - '%gcc@9.3.0'
   - backends:
     - backend=mpi
   - mpi_providers:

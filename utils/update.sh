@@ -37,6 +37,7 @@ echo 'Update ristra-spack-configurations'
 cd ristra-spack-configurations
 git init --shared=group .
 git pull
+git fetch --tags
 cd ..
 
 # Remove all old configs in spack/etc/spack and the <platform> folder
@@ -87,6 +88,7 @@ echo 'Update ristra_spackages'
 cd ristra_spackages
 git init --shared=group .
 git pull
+git fetch --tags
 cd ..
 ${SPACK_ROOT}/bin/spack repo add --scope site ristra_spackages/spack-repo || /bin/true
 
@@ -96,6 +98,7 @@ then
   cd ristra_spackages_pro;
   git init --shared=group . ;
   git pull;
+  git fetch --tags;
   cd .. ;
   ${SPACK_ROOT}/bin/spack repo add --scope site ristra_spackages_pro/spack-repo || /bin/true;
 fi

@@ -42,7 +42,7 @@ class FlecsiSp(CMakePackage):
     for v in ['debug_backend', 'external_cinch', 'shared', 'doxygen', 'hdf5', 'graphviz', 'tutorial']:
         depends_on("flecsi@1.4 +%s" % v, when="+%s" % v)
         depends_on("flecsi@1.4 ~%s" % v, when="~%s" % v)
-    depends_on("flecsi@1.4 caliper_detail=medium", when='+caliper')
+    depends_on("flecsi@1.4 caliper_detail=low", when='+caliper')
 
     depends_on('libristra')
     depends_on('cmake@3.12:')

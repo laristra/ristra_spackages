@@ -26,6 +26,7 @@ class Flecsi(CMakePackage, CudaPackage):
     version('1.4', git="https://github.com/laristra/flecsi.git",  branch='1.4', submodules=False, preferred=False)
     version('1.4.2', git="https://github.com/laristra/flecsi.git",  tag='v1.4.2', submodules=False, preferred=True)
     version('2.1.0', tag='v2.1.0', submodules=False, preferred=False)
+    version('2.develop', branch='2', submodules=False, preferred=False)
     version('flecsph', git="https://github.com/laristra/flecsi.git", branch="stable/flecsph", submodules=True, preferred=False)
 
     variant('backend', default='mpi', values=('serial', 'mpi', 'legion', 'hpx', 'charmpp'),
@@ -127,9 +128,9 @@ class Flecsi(CMakePackage, CudaPackage):
     # FleCSI@2: integrates cinch and no longer depends on external installs
     conflicts('+external_cinch', when='@2.0:')
     # Current FleCSI@:1.9 releases do not support kokkos, omp, or cuda
-    conflicts('+kokkos', when='@:1.9')
-    conflicts('+openmp', when='@:1.9')
-    conflicts('+cuda', when='@:1.9')
+    conflicts('+kokkos', when='@:1.4')
+    conflicts('+openmp', when='@:1.4')
+    conflicts('+cuda', when='@:1.4')
     # Unit tests require flog support
     conflicts('+unit_tests', when='~flog')
     # Disallow conduit=none when using legion as a backend
