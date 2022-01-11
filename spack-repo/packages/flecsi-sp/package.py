@@ -48,7 +48,7 @@ class FlecsiSp(CMakePackage):
     depends_on('cmake@3.12:')
     # Requires cinch > 1.0 due to cinchlog installation issue
     depends_on('cinch@1.01:', type='build', when='+external_cinch')
-    depends_on('exodusii')
+    depends_on('exodusii@2016-08-09')
     depends_on('hdf5+hl+mpi', when='+hdf5')
 
     #portage requires LAPACKE
