@@ -6,7 +6,7 @@ spack:
     - flecsi@1.4.2+external_cinch+hdf5 caliper_detail=low +doxygen+graphviz
   - compilers:
     - '%gcc@7.4.0'
-    - '%gcc@8.3.0'
+    - '%gcc@9.3.0'
   - backends:
     - backend=mpi
     - backend=hpx
