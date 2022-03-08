@@ -48,11 +48,9 @@ dry-run:
     - echo ${PLATFORM}
     - mkdir -p ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}
     - cp ${CI_PROJECT_DIR}/ristra-spack-configurations/common/*.yaml ${CI_PROJECT_DIR}/spack/etc/spack/
-    - echo ${SPACK_REF%.*}
     - |
       if [[ -d ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/${SPACK_REF%.*} ]];
       then
-        echo "Copying in config from ${SPACK_REF%.*}"
         cp ${CI_PROJECT_DIR}/ristra-spack-configurations/${CI_RUNNTER_SYSTEM}/${SPACK_REF%.*}/*.yaml ${CI_PROJECT_DIR}/spack/etc/spack/${PLATFORM}/;
       fi
     # HPC mirror has cached an older version of flecsi and cinch
