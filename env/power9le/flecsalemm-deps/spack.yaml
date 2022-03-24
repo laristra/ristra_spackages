@@ -11,7 +11,7 @@ spack:
     - mpich@3.2.1+slurm+verbs device=ch3
     - openmpi@3.1.4+pmi+legacylaunchers+thread_multiple fabrics=auto ^hwloc@1.11.13
   - constraints:
-    - ^trilinos cxxstd=11
+    - ^trilinos cxxstd=11 ^openssl@1.1.1g
   specs:
   - matrix:
     - [$pkgs]
