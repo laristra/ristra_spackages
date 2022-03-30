@@ -2,6 +2,7 @@ spack:
   definitions:
   - pkgs:
     - flecsi@2.1.0~external_cinch+hdf5
+    - flecsi@aa8473bdc9b22bdad9233b67c0e0266267e40ee8 +hdf5
   - compilers:
     - '%gcc@9.3.0'
   - backends:
