@@ -2,12 +2,12 @@ spack:
   definitions:
   - pkgs:
     - flecsi@2.1.0~external_cinch+hdf5
-    - flecsi@aa8473bdc9b22bdad9233b67c0e0266267e40ee8 +hdf5
+    - flecsi@aa8473bdc9b22bdad9233b67c0e0266267e40ee8 ~external_cinch+hdf5
   - compilers:
     - '%gcc@9.3.0'
   - backends:
     - backend=mpi caliper_detail=low
-    - backend=legion ^legion conduit=mpi
+    - backend=legion ^legion@cr.11 conduit=mpi
   - mpi_providers:
     - mpich@3.4.1+slurm+verbs device=ch3
     - openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
