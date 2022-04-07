@@ -8,7 +8,7 @@ variables:
   CI_RUNNTER_SYSTEM: "Darwin"
   CI_SPACKAGE: "flecsalemm-deps"
   SPACK_REPO: "https://github.com/spack/spack.git"
-  SPACK_REF: "v0.17.1- 88b1bf751d76e010584b251f482cdfb0ba5351a1"
+  SPACK_REF: "v0.17.1-88b1bf7"
   NGC_PROJECT_MODULE_DIR: "/projects/ngc/public/ristra_module_gen"
   SCHEDULER_PARAMETERS: "--nodes=1 --partition=skylake-gold"
 
