@@ -9,7 +9,7 @@ from spack.pkg.builtin.flecsi import Flecsi
 
 class Flecsi(Flecsi):
 
-    git = 'git@gitlab.lanl.gov:flecsi/flecsi.git'
+    git = "ssh://git@gitlab.lanl.gov/flecsi/flecsi.git"
 
     version('2.1.develop', branch='2.1', submodules=False, preferred=False)
     version('2.develop', branch='2', submodules=False, preferred=False)
