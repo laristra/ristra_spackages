@@ -6,7 +6,7 @@ applications by providing source code generation for some of the
 compile-time configuration required by FleCSI.'''
 
     homepage = ""
-    git      = "git@gitlab.lanl.gov:laristra/tide"
+    git      = "ssh://git@gitlab.lanl.gov:laristra/tide"
 
     version("0.2.0", tag="v0.2.0", submodules=False, preferred=True)
     version("0.1.0", tag="v0.1.0", submodules=False)

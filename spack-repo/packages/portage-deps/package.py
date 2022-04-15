@@ -11,7 +11,7 @@ class PortageDeps(BundlePackage):
     """TODO
     """
     homepage = "https://gitlab.lanl.gov/laristra/portage"
-    git      = "git@gitlab.lanl.gov:laristra/portage.git"
+    git      = "ssh://git@gitlab.lanl.gov:laristra/portage.git"
 
     version('master', branch='master', submodules=False)
 

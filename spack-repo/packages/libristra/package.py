@@ -12,7 +12,7 @@ class Libristra(CMakePackage):
     """
     homepage = 'https://github.com/laristra/libristra'
     url = 'https://github.com/laristra/libristra/archive/master.zip'
-    git      = 'https://github.com/laristra/libristra.git'
+    git = "ssh://git@gitlab.lanl.gov/laristra/libristra.git"
     tags = ['ristra']
 
     version('master', branch='master', submodules=False, preferred=True)
