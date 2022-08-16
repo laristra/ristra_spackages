@@ -15,10 +15,10 @@ spack:
   - flecsi@2.1.0~external_cinch+hdf5 caliper_detail=low %gcc@9.3.0 ^mpich@3.4.1+slurm+verbs device=ch3
   - flecsi@2.1.0~external_cinch+hdf5 backend=legion %gcc@9.3.0 ^legion conduit=mpi ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
   - flecsi@2.1.0~external_cinch+hdf5 backend=legion %gcc@9.3.0 ^legion conduit=mpi ^mpich@3.4.1+slurm+verbs device=ch3
-  - flecsi@2.1.develop~external_cinch+hdf5 caliper_detail=low %gcc@9.3.0 ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
-  - flecsi@2.1.develop~external_cinch+hdf5 caliper_detail=low %gcc@9.3.0 ^mpich@3.4.1+slurm+verbs device=ch3
-  - flecsi@2.1.develop~external_cinch+hdf5 backend=legion %gcc@9.3.0 ^legion conduit=mpi ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
-  - flecsi@2.1.develop~external_cinch+hdf5 backend=legion %gcc@9.3.0 ^legion conduit=mpi ^mpich@3.4.1+slurm+verbs device=ch3
+  - flecsi@2.2.alpha.0~external_cinch+hdf5 caliper_detail=low %gcc@9.3.0 ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
+  - flecsi@2.2.alpha.0~external_cinch+hdf5 caliper_detail=low %gcc@9.3.0 ^mpich@3.4.1+slurm+verbs device=ch3
+  - flecsi@2.2.alpha.0~external_cinch+hdf5 backend=legion %gcc@9.3.0 ^legion conduit=mpi ^openmpi@4.1.0+pmi+legacylaunchers+thread_multiple fabrics=auto
+  - flecsi@2.2.alpha.0~external_cinch+hdf5 backend=legion %gcc@9.3.0 ^legion conduit=mpi ^mpich@3.4.1+slurm+verbs device=ch3
   - matrix:
     - [$pkgs]
     - [$compilers]

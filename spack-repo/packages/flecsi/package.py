@@ -12,13 +12,8 @@ class Flecsi(Flecsi):
     git = "ssh://git@gitlab.lanl.gov/flecsi/flecsi.git"
 
     version('2.1.develop', branch='2.1', submodules=False, preferred=False)
+    version('2.2.alpha.0', commit='e868062eefbcafd019186576af68400fe711cc67')
     version('2.develop', branch='2', submodules=False, preferred=False)
-
-
-    # All Current FleCSI Releases
-    for level in ('low', 'medium', 'high'):
-        depends_on('caliper@2.0.1~adiak~libdw', when='@:1.9 caliper_detail=%s' % level)
-        depends_on('caliper@2.4.0~libdw', when='@2.0: caliper_detail=%s' % level)
 
     depends_on('openmpi+legacylaunchers', when='+unit_tests ^openmpi')
     depends_on('legion+shared network=gasnet', when='backend=legion')
