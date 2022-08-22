@@ -8,6 +8,8 @@ spack:
     - backend=mpi
   - mpi_providers:
     - mpich@3.2.1+slurm+verbs device=ch3
+  - constraints:
+    - ^trilinos cxxstd=11 ^openssl@1.1.1g
   specs:
   - flecsi@2.1.0~external_cinch+hdf5 caliper_detail=low %gcc@9.3.0 ^mpich@3.4.1+slurm+verbs device=ch3
   - flecsi@2.2.alpha.0~external_cinch+hdf5 caliper_detail=low %gcc@9.3.0 ^mpich@3.4.1+slurm+verbs device=ch3
@@ -16,6 +18,7 @@ spack:
     - [$compilers]
     - [$backends]
     - [$^mpi_providers]
+    - [$constraints]
   packages:
     all:
       target: [x86_64]
